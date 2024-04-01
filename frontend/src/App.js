@@ -3,6 +3,8 @@ import "./App.css";
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [replyBoxHidden, setReplyBoxHidden] = useState(true);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     getData();
@@ -14,10 +16,18 @@ const App = () => {
     setData(jsonData.comments);
   };
 
+  const toggleReplyBox = () => {
+    setReplyBoxHidden(!replyBoxHidden);
+  };
+
+  const handleCommentChange = e => {
+    setComment(e.target.value);
+  };
+
   return (
     <>
-      <div class="replyBox" hidden>
-        <form class="replyForm">
+      <div className="replyBox" hidden={replyBoxHidden}>
+        <form className="replyForm">
           <textarea
             name="replyComment"
             id=""
@@ -38,7 +48,11 @@ const App = () => {
               <div className="commentUser">
                 <p>{com.user.username}</p>
                 <p>{com.createdAt}</p>
-                <button type="button" className="replayBtn">
+                <button
+                  type="button"
+                  className="replayBtn"
+                  onClick={toggleReplyBox}
+                >
                   reply
                 </button>
               </div>
@@ -47,13 +61,22 @@ const App = () => {
                 {com.replies.map(row => {
                   return (
                     <div className={`comment${row.id}`}>
-                      <textarea readOnly rows={4} cols={50}>
+                      <textarea
+                        className="commentContent"
+                        readOnly
+                        rows={4}
+                        cols={50}
+                      >
                         {row.content}
                       </textarea>
-                      <div>
+                      <div className="commentUser">
                         <p>{row.user.username}</p>
                         <p>{row.createdAt}</p>
-                        <button type="button" className="replayBtn">
+                        <button
+                          type="button"
+                          className="replayBtn"
+                          onClick={toggleReplyBox}
+                        >
                           reply
                         </button>
                       </div>
@@ -70,8 +93,8 @@ const App = () => {
         <form className="postForm" onSubmit={() => {}}>
           <textarea
             name="comment"
-            value={""}
-            onChange={() => {}}
+            value={comment}
+            onChange={handleCommentChange}
             cols="50"
             rows="3"
             required
