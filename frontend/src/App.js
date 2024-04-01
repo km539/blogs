@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./App.css";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -27,42 +28,44 @@ const App = () => {
           <button type="submit">Reply</button>
         </form>
       </div>
-      {data.map(com => {
-        return (
-          <div className={`comment${com.id}`} key={com.id}>
-            <textarea readOnly rows={4} cols={50}>
-              {com.content}
-            </textarea>
-            <div>
-              <p>{com.user.username}</p>
-              <p>{com.createdAt}</p>
-              <button type="button" className="replayBtn">
-                reply
-              </button>
-            </div>
-            <p>{com.score}</p>
-            <div className="replies">
-              {com.replies.map(row => {
-                return (
-                  <div className={`comment${row.id}`}>
-                    <textarea readOnly rows={4} cols={50}>
-                      {row.content}
-                    </textarea>
-                    <div>
-                      <p>{row.user.username}</p>
-                      <p>{row.createdAt}</p>
-                      <button type="button" className="replayBtn">
-                        reply
-                      </button>
+      <div className="comments">
+        {data.map(com => {
+          return (
+            <div className={`comment${com.id}`} key={com.id}>
+              <textarea className="commentContent" readOnly rows={4} cols={50}>
+                {com.content}
+              </textarea>
+              <div className="commentUser">
+                <p>{com.user.username}</p>
+                <p>{com.createdAt}</p>
+                <button type="button" className="replayBtn">
+                  reply
+                </button>
+              </div>
+              <p>{com.score}</p>
+              <div className="replies">
+                {com.replies.map(row => {
+                  return (
+                    <div className={`comment${row.id}`}>
+                      <textarea readOnly rows={4} cols={50}>
+                        {row.content}
+                      </textarea>
+                      <div>
+                        <p>{row.user.username}</p>
+                        <p>{row.createdAt}</p>
+                        <button type="button" className="replayBtn">
+                          reply
+                        </button>
+                      </div>
+                      <p>{row.score}</p>
                     </div>
-                    <p>{row.score}</p>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
       <div className="post">
         <form className="postForm" onSubmit={() => {}}>
           <textarea
