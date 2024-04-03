@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Comment from "./components/comment";
 import "./App.css";
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
     setReplyBoxHidden(!replyBoxHidden);
   };
 
-  const handleCommentChange = e => {
+  const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
@@ -39,55 +40,11 @@ const App = () => {
         </form>
       </div>
       <div className="comments">
-        {data.map(com => {
-          return (
-            <div className={`comment${com.id}`} key={com.id}>
-              <textarea className="commentContent" readOnly rows={4} cols={50}>
-                {com.content}
-              </textarea>
-              <div className="commentUser">
-                <p>{com.user.username}</p>
-                <p>{com.createdAt}</p>
-                <button
-                  type="button"
-                  className="replayBtn"
-                  onClick={toggleReplyBox}
-                >
-                  reply
-                </button>
-              </div>
-              <p>{com.score}</p>
-              <div className="replies">
-                {com.replies.map(row => {
-                  return (
-                    <div className={`comment${row.id}`}>
-                      <textarea
-                        className="commentContent"
-                        readOnly
-                        rows={4}
-                        cols={50}
-                      >
-                        {row.content}
-                      </textarea>
-                      <div className="commentUser">
-                        <p>{row.user.username}</p>
-                        <p>{row.createdAt}</p>
-                        <button
-                          type="button"
-                          className="replayBtn"
-                          onClick={toggleReplyBox}
-                        >
-                          reply
-                        </button>
-                      </div>
-                      <p>{row.score}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+        {data.map((comment) => (
+          <div key={comment.id}>
+            <Comment comment={comment} toggleReplyBox={toggleReplyBox} />
+          </div>
+        ))}
       </div>
       <div className="post">
         <form className="postForm" onSubmit={() => {}}>
