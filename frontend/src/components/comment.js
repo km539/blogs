@@ -1,4 +1,5 @@
 import React from "react";
+import Reply from "./Reply";
 
 const Comment = ({ comment, toggleReplyBox }) => {
   return (
@@ -14,34 +15,11 @@ const Comment = ({ comment, toggleReplyBox }) => {
         </button>
       </div>
       <p>{comment.score}</p>
-      {/* <div className="replies">
-                {com.replies.map(row => {
-                  return (
-                    <div className={`comment${row.id}`}>
-                      <textarea
-                        className="commentContent"
-                        readOnly
-                        rows={4}
-                        cols={50}
-                      >
-                        {row.content}
-                      </textarea>
-                      <div className="commentUser">
-                        <p>{row.user.username}</p>
-                        <p>{row.createdAt}</p>
-                        <button
-                          type="button"
-                          className="replayBtn"
-                          onClick={toggleReplyBox}
-                        >
-                          reply
-                        </button>
-                      </div>
-                      <p>{row.score}</p>
-                    </div>
-                  );
-                })}
-              </div> */}
+      <div className="replies">
+        {comment.replies.map((reply) => (
+          <Reply key={reply.id} reply={reply} toggleReplyBox={toggleReplyBox} />
+        ))}
+      </div>
     </div>
   );
 };
