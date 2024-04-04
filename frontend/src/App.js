@@ -4,7 +4,6 @@ import "./App.css";
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [replyBoxHidden, setReplyBoxHidden] = useState(true);
   const [comment, setComment] = useState("");
 
   useEffect(() => {
@@ -17,32 +16,16 @@ const App = () => {
     setData(jsonData.comments);
   };
 
-  const toggleReplyBox = () => {
-    setReplyBoxHidden(!replyBoxHidden);
-  };
-
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
   return (
     <>
-      <div className="replyBox" hidden={replyBoxHidden}>
-        <form className="replyForm">
-          <textarea
-            name="replyComment"
-            id=""
-            cols="50"
-            rows="3"
-            required
-          ></textarea>
-          <button type="submit">Reply</button>
-        </form>
-      </div>
       <div className="comments">
         {data.map((comment) => (
           <div key={comment.id}>
-            <Comment comment={comment} toggleReplyBox={toggleReplyBox} />
+            <Comment comment={comment} />
           </div>
         ))}
       </div>
