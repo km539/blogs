@@ -20,7 +20,6 @@ const App = () => {
     setComment(e.target.value);
   };
 
-  // test msg
   return (
     <>
       <div className="comments">
