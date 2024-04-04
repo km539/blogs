@@ -9,13 +9,6 @@ const Reply = ({ reply, toggleReplyBox }) => {
       <div className="commentUser">
         <p>{reply.user.username}</p>
         <p>{reply.createdAt}</p>
-        <button
-          type="button"
-          className="replayBtn"
-          onClick={toggleReplyBox}
-        >
-          reply
-        </button>
       </div>
       <p>{reply.score}</p>
     </div>
