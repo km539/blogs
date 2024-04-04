@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Comment from "./components/comment";
+import Comment from "./Components/Comment";
 import "./App.css";
 
 const App = () => {
