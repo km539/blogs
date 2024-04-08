@@ -1,0 +1,19 @@
+.post {
+  padding: 1rem;
+}
+.postForm {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.postForm textarea {
+  resize: none;
+  width: 100%;
+}
+
+.postForm button {
+  padding-inline: 1rem;
+  background: blue;
+  color: azure;
+  border: none;
+}

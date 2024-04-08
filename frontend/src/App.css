@@ -1,5 +1,4 @@
-.comments > div,
-.replies > div {
+.comments > div {
   border: 1px solid black;
 }
 .commentUserImg {
@@ -23,5 +22,5 @@
 }
 
 .replies {
-  margin-left: 5rem;
+  margin-inline: 1rem;
 }
