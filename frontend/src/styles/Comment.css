@@ -1,0 +1,25 @@
+.commentContent {
+  border: none;
+  width: 90%;
+}
+
+.commentContent:focus {
+  border: none;
+  outline: 0;
+}
+
+.commentUser {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1rem;
+}
+
+.commentUser > div {
+  display: flex;
+}
+
+.replyBtn {
+  background: inherit;
+  border: none;
+  color: blue;
+}

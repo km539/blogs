@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Reply from "./Reply";
+import "../styles/Comment.css";
 
 const Comment = ({ comment }) => {
   const [replyBoxHidden, setReplyBoxHidden] = useState(true);
@@ -10,16 +11,18 @@ const Comment = ({ comment }) => {
 
   return (
     <div className={`comment${comment.id}`} key={comment.id}>
-      <textarea className="commentContent" readOnly rows={4} cols={50}>
-        {comment.content}
-      </textarea>
       <div className="commentUser">
-        <p>{comment.user.username}</p>
-        <p>{comment.createdAt}</p>
-        <button type="button" className="replayBtn" onClick={toggleReplyBox}>
+        <div>
+          <p>{comment.user.username}</p>
+          <p>{comment.createdAt}</p>
+        </div>
+        <button type="button" className="replyBtn" onClick={toggleReplyBox}>
           reply
         </button>
       </div>
+      <textarea className="commentContent" readOnly rows={4} cols={50}>
+        {comment.content}
+      </textarea>
       <div className="replyBox" hidden={replyBoxHidden}>
         <form className="replyForm">
           <textarea
@@ -34,7 +37,7 @@ const Comment = ({ comment }) => {
       </div>
       <p>{comment.score}</p>
       <div className="replies">
-        {comment.replies.map((reply) => (
+        {comment.replies.map(reply => (
           <Reply key={reply.id} reply={reply} />
         ))}
       </div>

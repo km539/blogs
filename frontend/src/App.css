@@ -1,24 +1,12 @@
 .comments > div {
   border: 1px solid black;
+  margin-bottom: 1rem;
 }
+
 .commentUserImg {
   width: 3rem;
   height: 3rem;
   margin-right: 1rem;
-}
-
-.commentUser {
-  display: flex;
-}
-
-.commentContent {
-  border: none;
-  width: 100%;
-}
-
-.commentContent:focus {
-  border: none;
-  outline: 0;
 }
 
 .replies {

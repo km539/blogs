@@ -1,6 +1,6 @@
-name: ans branch nodejs CI
+name: nodejs CI
 
-on: [ push ]
+on: [push]
 
 jobs:
   build:

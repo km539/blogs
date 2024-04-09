@@ -1,6 +1,10 @@
 .post {
   padding: 1rem;
+  width: 90%;
+  position: fixed;
+  bottom: 0px;
 }
+
 .postForm {
   display: flex;
   gap: 0.5rem;

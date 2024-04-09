@@ -21,9 +21,7 @@ const App = () => {
     <>
       <div className="comments">
         {data.map(comment => (
-          <div key={comment.id}>
-            <Comment comment={comment} />
-          </div>
+          <Comment comment={comment} key={comment.id} />
         ))}
       </div>
       <Post />
