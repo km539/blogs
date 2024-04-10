@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+const knex = require("../lib/setUp.js");
 
 app.use(cors());
 app.use(express.json());
