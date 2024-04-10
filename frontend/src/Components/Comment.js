@@ -23,6 +23,7 @@ const Comment = ({ comment }) => {
       <textarea className="commentContent" readOnly rows={4} cols={50}>
         {comment.content}
       </textarea>
+      <p>{comment.score}</p>
       <div className="replyBox" hidden={replyBoxHidden}>
         <form className="replyForm">
           <textarea
@@ -35,7 +36,6 @@ const Comment = ({ comment }) => {
           <button type="submit">Reply</button>
         </form>
       </div>
-      <p>{comment.score}</p>
       <div className="replies">
         {comment.replies.map(reply => (
           <Reply key={reply.id} reply={reply} />

@@ -23,3 +23,23 @@
   border: none;
   color: blue;
 }
+
+.replyForm {
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.replyForm textarea {
+  resize: none;
+  width: 70%;
+  /* min-width: 500px; */
+}
+
+.replyForm button {
+  padding-inline: 1rem;
+  background: green;
+  color: azure;
+  border: none;
+  border-radius: 5px;
+}
