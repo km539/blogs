@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 import Reply from "./Reply";
+import "../Styles/Comment.css";
 
 const Comment = ({ comment }) => {
   const [replyBoxHidden, setReplyBoxHidden] = useState(true);
 
-  const toggleReplyBox = () => {
-    setReplyBoxHidden(!replyBoxHidden);
-  };
-
   return (
-    <div className={`comment${comment.id}`} key={comment.id}>
-      <textarea className="commentContent" readOnly rows={4} cols={50}>
-        {comment.content}
-      </textarea>
-      <div className="commentUser">
-        <p>{comment.user.username}</p>
-        <p>{comment.createdAt}</p>
-        <button type="button" className="replayBtn" onClick={toggleReplyBox}>
-          reply
-        </button>
+    <div className={`comment`} key={comment.id}>
+      <div className="commentContent">
+        <div className="commentText">
+          <div className="commentUser">
+            <img
+              src="https://www.comingsoon.net/wp-content/uploads/sites/3/2022/06/Baby-Groot.jpeg?w=800"
+              alt="Baby Groot"
+            />
+            <p>{comment.user.username}</p>
+          </div>
+          <p>{comment.createdAt}</p>
+        </div>
+        <textarea readOnly rows={4} cols={50} value={comment.content} />
       </div>
-      <div className="replyBox" hidden={replyBoxHidden}>
+
+      <div className="replies">
+        {comment.replies.map((reply) => (
+          <Reply key={reply.id} reply={reply} />
+        ))}
+      </div>
+      <div className="replyBox">
         <form className="replyForm">
           <textarea
             name="replyComment"
@@ -31,12 +37,6 @@ const Comment = ({ comment }) => {
           ></textarea>
           <button type="submit">Reply</button>
         </form>
-      </div>
-      <p>{comment.score}</p>
-      <div className="replies">
-        {comment.replies.map((reply) => (
-          <Reply key={reply.id} reply={reply} />
-        ))}
       </div>
     </div>
   );

@@ -11,7 +11,8 @@ const App = () => {
   }, []);
 
   const getData = async () => {
-    const res = await fetch("/api/comments");
+    // const res = await fetch("http://localhost:5000/api/comments");
+    const res = await fetch("api/comments");
     const jsonData = await res.json();
     setData(jsonData.comments);
   };
@@ -23,11 +24,14 @@ const App = () => {
   return (
     <>
       <div className="comments">
-        {data.map((comment) => (
-          <div key={comment.id}>
-            <Comment comment={comment} />
-          </div>
-        ))}
+        {data.map((comment) => {
+          console.log("Mapped comment:", comment);
+          return (
+            <div key={comment.id}>
+              <Comment comment={comment} />
+            </div>
+          );
+        })}
       </div>
       <div className="post">
         <form className="postForm" onSubmit={() => {}}>
