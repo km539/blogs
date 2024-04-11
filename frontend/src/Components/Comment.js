@@ -3,8 +3,6 @@ import Reply from "./Reply";
 import "../Styles/Comment.css";
 
 const Comment = ({ comment }) => {
-  const [replyBoxHidden, setReplyBoxHidden] = useState(true);
-
   return (
     <div className={`comment`} key={comment.id}>
       <div className="commentContent">
