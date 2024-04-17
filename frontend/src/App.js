@@ -14,6 +14,7 @@ const App = () => {
     // const res = await fetch("http://localhost:5000/api/comments");
     const res = await fetch("api/comments");
     const jsonData = await res.json();
+    //console.log(jsonData.comments);
     setData(jsonData.comments);
   };
 
@@ -25,7 +26,7 @@ const App = () => {
     <>
       <div className="comments">
         {data.map((comment) => {
-          console.log("Mapped comment:", comment);
+          //console.log("Mapped comment:", comment);
           return (
             <div key={comment.id}>
               <Comment comment={comment} />
@@ -34,7 +35,12 @@ const App = () => {
         })}
       </div>
       <div className="post">
-        <form className="postForm" onSubmit={() => {}}>
+        <form
+          className="postForm"
+          onSubmit={() => {
+            console.log(comment);
+          }}
+        >
           <textarea
             name="comment"
             value={comment}

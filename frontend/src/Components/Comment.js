@@ -12,7 +12,7 @@ const Comment = ({ comment }) => {
               src="https://www.comingsoon.net/wp-content/uploads/sites/3/2022/06/Baby-Groot.jpeg?w=800"
               alt="Baby Groot"
             />
-            <p>{comment.user.username}</p>
+            <p>{comment.username}</p>
           </div>
           <p>{comment.createdAt}</p>
         </div>
