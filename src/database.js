@@ -8,8 +8,29 @@ const pool = new Pool({
   port: 5432,
 });
 
-pool.connect(function (err) {
-  if (err) throw err;
+const createTableQuery = `
+CREATE TABLE IF NOT EXISTS comments (
+	id SERIAL PRIMARY KEY, 
+	username character varying, 
+	createdAt character varying, 
+	content character varying
+);
+
+CREATE TABLE IF NOT EXISTS replies (
+	id SERIAL PRIMARY KEY, 
+	username character varying, 
+	createdAt character varying, 
+	content character varying,
+	comment_id INT REFERENCES comments (id)
+);
+`;
+
+pool.connect(function (err, client, release) {
+  if (err) return console.error("Error acquiring client", err.stack);
+  client.query(createTableQuery, (err, result) => {
+    release();
+    if (err) return console.error("Error executing query", err.stack);
+  });
   console.log("Database connected!");
 });
 module.exports = pool;
