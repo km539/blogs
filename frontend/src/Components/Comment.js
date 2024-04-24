@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Reply from "./Reply";
 import "../Styles/Comment.css";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, handleReply }) => {
+  const [replyContent, setReplyContent] = useState("");
+
+  const handleReplyChange = (e) => {
+    setReplyContent(e.target.value);
+  };
+
+  const handleSubmitReply = (e) => {
+    e.preventDefault();
+    handleReply(comment.id, replyContent); // コメント ID も一緒に送信
+    setReplyContent(""); // フォームをクリア
+  };
+
   return (
     <div className={`comment`} key={comment.id}>
       <div className="commentContent">
@@ -20,15 +32,16 @@ const Comment = ({ comment }) => {
       </div>
 
       <div className="replies">
-        {comment.replies.map((reply) => (
+      {comment.replies && comment.replies.map((reply) => (
           <Reply key={reply.id} reply={reply} />
         ))}
       </div>
       <div className="replyBox">
-        <form className="replyForm">
+        <form className="replyForm" onSubmit={handleSubmitReply}>
           <textarea
             name="replyComment"
-            id=""
+            value={replyContent}
+            onChange={handleReplyChange}
             cols="50"
             rows="3"
             required

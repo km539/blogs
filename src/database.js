@@ -1,11 +1,12 @@
 const Pool = require("pg").Pool;
+require('dotenv').config()
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "BLOGS",
-  password: "5858",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database:process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.PORT,
 });
 
 const createTableQuery = `
@@ -24,6 +25,8 @@ CREATE TABLE IF NOT EXISTS replies (
 	comment_id INT REFERENCES comments (id)
 );
 `;
+
+//createdAtのdefaultにCURRENT_DATEを入れるようにしてください(4/24）
 
 pool.connect(function (err, client, release) {
   if (err) return console.error("Error acquiring client", err.stack);
