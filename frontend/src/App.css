@@ -1,27 +1,34 @@
-.comments > div,
-.replies > div {
-  border: 1px solid black;
-}
-.commentUserImg {
-  width: 3rem;
-  height: 3rem;
-  margin-right: 1rem;
+body {
+  width: 50%;
+  height: 40%;
+  margin: auto;
+  border: 1px solid #ccc;
 }
 
-.commentUser {
+.comments {
+  margin-bottom: 20px;
+}
+
+.post {
+  margin-top: 10px;
+  padding: 10px;
+
+}
+
+.postForm {
   display: flex;
+    flex-direction: row;
+    align-items: stretch;
 }
 
-.commentContent {
-  border: none;
-  width: 100%;
+.postForm textarea {
+  width: 89%;
+  resize: none;
 }
 
-.commentContent:focus {
-  border: none;
-  outline: 0;
-}
-
-.replies {
-  margin-left: 5rem;
+.postForm button {
+  background-color: pink;
+  color: black;
+  padding: 5px 10px; /* ボタンの内側の余白を設定 */
+  cursor: pointer;
 }

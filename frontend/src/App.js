@@ -1,77 +1,127 @@
 import React, { useEffect, useState } from "react";
+import Comment from "./Components/Comment";
 import "./App.css";
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
-    const res = await fetch("/api/comments");
-    const jsonData = await res.json();
-    setData(jsonData.comments);
+    try {
+      // const res = await fetch("http://localhost:5000/api/comments");
+      const res = await fetch("/api/comments");
+      const jsonData = await res.json();
+      setData(jsonData.comments);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleReply = async (commentId, replyContent) => {
+    try {
+      if (!replyContent.trim()) {
+        alert("返信内容を入力してください。");
+        return;
+      }
+
+      // const res = await fetch("http://localhost:5000/api/replies", {
+        const res = await fetch("/api/replies", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: replyContent, commentId }),
+      });
+
+      if (res.ok) {
+        console.log("Reply added successfully!");
+        const responseJson = await res.json();
+        console.log("New reply data:", responseJson.newReply);
+        updatereplies(commentId, responseJson.newReply);
+      } else {
+        console.error("Failed to add reply:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding reply:", error);
+    }
+  };
+
+  const updatereplies = (commentId, newReply) => {
+    setData((prevData) => {
+      return prevData.map((comment) => {
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            replies: [...comment.replies, newReply],
+          };
+        }
+        return comment;
+      });
+    });
+  };
+
+  const sendComment = async () => {
+    try {
+      if (!comment.trim()) {
+        alert("コメントを入力してください。");
+        return;
+      }
+      // const res = await fetch("http://localhost:5000/api/comments", {
+        const res = await fetch("/api/comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: comment }),
+      });
+
+      if (res.ok) {
+        console.log("Comment added successfully!");
+        const responseJson = await res.json();
+        updateComments(responseJson.newComment);
+        setComment("");
+      } else {
+        console.error("Failed to add comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+  const updateComments = (newComment) => {
+    setData((prevComments) => [...prevComments, newComment]);
   };
 
   return (
     <>
-      <div class="replyBox" hidden>
-        <form class="replyForm">
-          <textarea
-            name="replyComment"
-            id=""
-            cols="50"
-            rows="3"
-            required
-          ></textarea>
-          <button type="submit">Reply</button>
-        </form>
-      </div>
       <div className="comments">
-        {data.map(com => {
+        {data.map((comment) => {
           return (
-            <div className={`comment${com.id}`} key={com.id}>
-              <textarea className="commentContent" readOnly rows={4} cols={50}>
-                {com.content}
-              </textarea>
-              <div className="commentUser">
-                <p>{com.user.username}</p>
-                <p>{com.createdAt}</p>
-                <button type="button" className="replayBtn">
-                  reply
-                </button>
-              </div>
-              <p>{com.score}</p>
-              <div className="replies">
-                {com.replies.map(row => {
-                  return (
-                    <div className={`comment${row.id}`}>
-                      <textarea readOnly rows={4} cols={50}>
-                        {row.content}
-                      </textarea>
-                      <div>
-                        <p>{row.user.username}</p>
-                        <p>{row.createdAt}</p>
-                        <button type="button" className="replayBtn">
-                          reply
-                        </button>
-                      </div>
-                      <p>{row.score}</p>
-                    </div>
-                  );
-                })}
-              </div>
+            <div key={comment.id}>
+              <Comment comment={comment} handleReply={handleReply} />
             </div>
           );
         })}
       </div>
       <div className="post">
-        <form className="postForm" onSubmit={() => {}}>
+        <form
+          className="postForm"
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendComment();
+          }}
+        >
           <textarea
             name="comment"
-            value={""}
-            onChange={() => {}}
+            value={comment}
+            onChange={handleCommentChange}
             cols="50"
             rows="3"
             required

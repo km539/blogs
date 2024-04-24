@@ -1,0 +1,69 @@
+.comment {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.commentContent {
+  background-color: gainsboro;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.commentText {
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentUser {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.commentUser img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.commentContent textarea {
+  width: 99%;
+  margin-top: 10px;
+  resize: none;
+  background-color: pink;
+}
+
+.replies {
+  margin-top: 10px;
+  margin-left: 40px;
+  background-color: antiquewhite;
+}
+
+.replyBox {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.replyBox form {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.replyBox textarea {
+  width: 90%;
+  resize: none;
+}
+
+.replyBox button {
+  display: inline-block;
+  background-color: skyblue;
+  color: black;
+  padding: px 20px; /* ボタンの内側の余白を設定 */
+  cursor: pointer;
+}
+
