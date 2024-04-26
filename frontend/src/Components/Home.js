@@ -12,8 +12,8 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/comments");
-      // const res = await fetch("/api/comments");
+      // const res = await fetch("http://localhost:5000/api/comments");
+      const res = await fetch("/api/comments");
       const jsonData = await res.json();
       setData(jsonData.comments);
     } catch (error) {
@@ -74,8 +74,8 @@ const Home = () => {
         alert("コメントを入力してください。");
         return;
       }
-      const res = await fetch("http://localhost:5000/api/comments", {
-        // const res = await fetch("/api/comments", {
+      // const res = await fetch("http://localhost:5000/api/comments", {
+        const res = await fetch("/api/comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -17,7 +17,8 @@ const Comment = ({ commentData }) => {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/replies", {
+      // const res = await fetch("http://localhost:5000/api/replies", {
+         const res = await fetch("/api/replies", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
