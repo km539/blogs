@@ -1,26 +1,26 @@
 const Pool = require("pg").Pool;
-require('dotenv').config()
+require("dotenv").config();
 
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
-  database:process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.PORT,
+  database: process.env.DB_DATBASE,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
 });
 
 const createTableQuery = `
 CREATE TABLE IF NOT EXISTS comments (
 	id SERIAL PRIMARY KEY, 
 	username character varying, 
-	createdAt character varying, 
+	createdAt character varying DEFAULT CURRENT_DATE, 
 	content character varying
 );
 
 CREATE TABLE IF NOT EXISTS replies (
 	id SERIAL PRIMARY KEY, 
 	username character varying, 
-	createdAt character varying, 
+	createdAt character varying DEFAULT CURRENT_DATE, 
 	content character varying,
 	comment_id INT REFERENCES comments (id)
 );
