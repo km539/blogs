@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "../Styles/Reply.css";
 
-const Reply = ({ reply }) => {
+const Reply = ({ replyData }) => {
+  const [reply] = useState(replyData);
   return (
     <div className={`comment${reply.id}`}>
       <div className="commentInfo">
@@ -13,9 +14,7 @@ const Reply = ({ reply }) => {
           <p>{reply.username}</p>
           <p>{reply.createdAt}</p>
         </div>
-        <textarea className="commentReply" readOnly rows={4} cols={50}>
-          {reply.content}
-        </textarea>
+        <textarea className="commentReply" readOnly rows={4} cols={50} defaultValue={reply.content} />
       </div>
     </div>
   );

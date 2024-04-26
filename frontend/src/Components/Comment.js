@@ -2,21 +2,61 @@ import React, { useState } from "react";
 import Reply from "./Reply";
 import "../Styles/Comment.css";
 
-const Comment = ({ comment, handleReply }) => {
+const Comment = ({ commentData }) => {
+  const [comment, setComment] = useState(commentData);
   const [replyContent, setReplyContent] = useState("");
 
   const handleReplyChange = (e) => {
     setReplyContent(e.target.value);
   };
 
-  const handleSubmitReply = (e) => {
-    e.preventDefault();
-    handleReply(comment.id, replyContent); // コメント ID も一緒に送信
-    setReplyContent(""); // フォームをクリア
+  const handleReply = async () => {
+    try {
+      if (!replyContent.trim()) {
+        alert("返信内容を入力してください。");
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/api/replies", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: replyContent, commentId: comment.id }),
+      });
+
+      if (res.ok) {
+        console.log("Reply added successfully!");
+        const responseJson = await res.json();
+        updateReplies(responseJson.newReply);
+        setReplyContent("");
+      } else {
+        console.error("Failed to add reply:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding reply:", error);
+    }
+  };
+
+  const updateReplies = (newReply) => {
+    //console.log("New reply:", newReply);
+    setComment((prevComment) => {
+      return {
+        ...prevComment,
+        replies: [...prevComment.replies, newReply],
+      };
+    });
+
+    //   setComment(prev =>{
+    //     const newData = {...prev,
+    //       replies: [...prev.replies, newReply]
+    //     }
+    //     return newData;
+    //   })
   };
 
   return (
-    <div className={`comment`} key={comment.id}>
+    <div className="comment" key={comment.id}>
       <div className="commentContent">
         <div className="commentText">
           <div className="commentUser">
@@ -28,16 +68,17 @@ const Comment = ({ comment, handleReply }) => {
           </div>
           <p>{comment.createdAt}</p>
         </div>
-        <textarea readOnly rows={4} cols={50} value={comment.content} />
+        <textarea readOnly rows={4} cols={50} defaultValue={comment.content} />
       </div>
 
       <div className="replies">
-      {comment.replies && comment.replies.map((reply) => (
-          <Reply key={reply.id} reply={reply} />
-        ))}
+        {comment.replies &&
+          comment.replies.map((reply) => (
+            <Reply key={reply.id} replyData={reply} />
+          ))}
       </div>
       <div className="replyBox">
-        <form className="replyForm" onSubmit={handleSubmitReply}>
+        <form className="replyForm" onSubmit={(e) => e.preventDefault()}>
           <textarea
             name="replyComment"
             value={replyContent}
@@ -46,7 +87,9 @@ const Comment = ({ comment, handleReply }) => {
             rows="3"
             required
           ></textarea>
-          <button type="submit">Reply</button>
+          <button type="button" onClick={handleReply}>
+            Reply
+          </button>
         </form>
       </div>
     </div>

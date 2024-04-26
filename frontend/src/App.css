@@ -1,34 +1,25 @@
-body {
-  width: 50%;
-  height: 40%;
-  margin: auto;
-  border: 1px solid #ccc;
+html.body {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-.comments {
-  margin-bottom: 20px;
-}
-
-.post {
-  margin-top: 10px;
-  padding: 10px;
-
-}
-
-.postForm {
+.App {
   display: flex;
-    flex-direction: row;
-    align-items: stretch;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  width: auto;
+  height: auto;
 }
 
-.postForm textarea {
-  width: 89%;
-  resize: none;
+.content-wrapper {
+  display: flex;
 }
 
-.postForm button {
-  background-color: pink;
-  color: black;
-  padding: 5px 10px; /* ボタンの内側の余白を設定 */
-  cursor: pointer;
+.content {
+  flex-grow: 1; 
+  width: auto;
+  /* padding: 20px;  */
 }
+

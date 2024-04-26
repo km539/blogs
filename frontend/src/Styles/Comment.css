@@ -34,13 +34,13 @@
   width: 99%;
   margin-top: 10px;
   resize: none;
-  background-color: pink;
+  background-color: whitesmoke;
 }
 
 .replies {
   margin-top: 10px;
   margin-left: 40px;
-  background-color: antiquewhite;
+  background-color: gainsboro;
 }
 
 .replyBox {
