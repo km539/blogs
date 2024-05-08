@@ -23,6 +23,7 @@ app.post("/api/comments", async (req, res) => {
   try {
     const { content } = req.body;
     const username = "John";
+    console.log("New comment content:", content);
 
     const query =
       "INSERT INTO comments(username, content) VALUES ($1, $2) RETURNING * ";
@@ -57,6 +58,27 @@ app.post("/api/replies", async (req, res) => {
     });
   } catch (error) {
     console.error("Error executing query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/comments/search", async (req, res) => {
+  try {
+    const { search } = req.body;
+
+    if (search.trim() === "") {
+      const comments = await pool.query("SELECT * FROM comments ORDER BY id");
+      res.status(200).json({ results: comments.rows });
+    } else {
+     
+      const comments = await pool.query(
+        "SELECT * FROM comments WHERE content ILIKE $1 ORDER BY id",
+        [`%${search}%`]
+      );
+      res.status(200).json({ results: comments.rows });
+    }
+  } catch (error) {
+    console.error("Error executing search query:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });

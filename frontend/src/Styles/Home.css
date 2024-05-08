@@ -6,6 +6,28 @@
   margin: 0 auto
 }
 
+.Search {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.Search input[type="text"] {
+  flex: 1;
+  padding: 5px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  width: 90%;
+}
+
+/* .Search button {
+  background-color: pink;
+  color: black;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+} */
+
 .comments {
   margin-bottom: 20px;
   width: 100%;

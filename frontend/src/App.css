@@ -2,24 +2,38 @@ html.body {
   font-size: 16px;
   margin: 0;
   padding: 0;
-  height: 100%;
+  /* height: auto;
+  width: auto; */
 }
 
 .App {
   display: flex;
   flex-direction: column;
-  background-color: #f0f0f0;
   width: auto;
-  height: auto;
+  height: 100vh;
 }
 
 .content-wrapper {
   display: flex;
+  width: auto;
+  /* height: 100vh; */
 }
 
 .content {
   flex-grow: 1; 
   width: auto;
+  height: auto;
   /* padding: 20px;  */
 }
+
+.Friends {
+  width: auto;
+  height: 100vh;
+}
+
+.MyPage {
+  width: auto;
+  height: 100vh;
+}
+
 
