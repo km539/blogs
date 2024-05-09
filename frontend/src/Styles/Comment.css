@@ -15,6 +15,8 @@
 .commentText {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: relative; 
 }
 
 .commentUser {
@@ -28,6 +30,48 @@
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+}
+.commentCreatedAt {
+  margin-left: auto; 
+  margin-bottom: 10px;
+}
+
+.menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%; 
+  background-color: #ccc; 
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.menu-icon:hover {
+  background-color: #ddd;
+}
+
+.menu-icon svg {
+  color: #333; 
+  font-size: 16px; 
+}
+
+.delete-button {
+  background-color: #dc3545; 
+  color: white; 
+  border: none; 
+  font-size: 14px;
+  border-radius: 4px; 
+  cursor: pointer; 
+  position: absolute;
+  bottom: -5px; 
+  right: 30px;
+}
+
+.delete-button:hover {
+  background-color: #c82333; 
 }
 
 .commentContent textarea {

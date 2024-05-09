@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import Reply from "./Reply";
 import "../Styles/Comment.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 const Comment = ({ commentData }) => {
   const [comment, setComment] = useState(commentData);
   const [replyContent, setReplyContent] = useState("");
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+  const toggleDeleteButton = () => {
+    setShowDeleteButton(!showDeleteButton);
+  };
 
   const handleReplyChange = (e) => {
     setReplyContent(e.target.value);
@@ -47,13 +54,6 @@ const Comment = ({ commentData }) => {
         replies: [...prevComment.replies, newReply],
       };
     });
-
-    //   setComment(prev =>{
-    //     const newData = {...prev,
-    //       replies: [...prev.replies, newReply]
-    //     }
-    //     return newData;
-    //   })
   };
 
   return (
@@ -67,7 +67,15 @@ const Comment = ({ commentData }) => {
             />
             <p>{comment.username}</p>
           </div>
-          <p>{comment.createdAt}</p>
+          <p className="commentCreatedAt">{comment.createdAt}</p>
+          <div className="menu-icon" onClick={toggleDeleteButton}>
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </div>
+          {showDeleteButton && (
+            <button className="delete-button">
+              削除
+            </button>
+          )}
         </div>
         <textarea readOnly rows={4} cols={50} defaultValue={comment.content} />
       </div>
