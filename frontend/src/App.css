@@ -11,6 +11,7 @@
 
 .replies {
   margin-inline: 1rem;
+}
 html.body {
   font-size: 16px;
   margin: 0;
@@ -33,7 +34,7 @@ html.body {
 }
 
 .content {
-  flex-grow: 1; 
+  flex-grow: 1;
   width: auto;
   height: auto;
   /* padding: 20px;  */
@@ -48,5 +49,3 @@ html.body {
   width: auto;
   height: 100vh;
 }
-
-

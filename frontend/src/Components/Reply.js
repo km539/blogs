@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "../Styles/Reply.css";
+import "../styles/Reply.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-const Reply = ({ replyData, onDelete}) => {
+const Reply = ({ replyData, onDelete }) => {
   const [reply] = useState(replyData);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
 
@@ -19,7 +19,7 @@ const Reply = ({ replyData, onDelete}) => {
 
       if (res.ok) {
         console.log("Reply deleted successfully!");
-        onDelete(reply.id); 
+        onDelete(reply.id);
       } else {
         console.error("Failed to delete reply:", res.statusText);
       }

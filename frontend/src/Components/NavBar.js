@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../Styles/NavBar.css";
+import "../styles/NavBar.css";
 
 const NavBar = () => {
   const [activeLink, setActiveLink] = useState("Home");

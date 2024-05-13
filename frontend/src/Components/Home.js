@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
-import "../Styles/Home.css";
+import "../styles/Home.css";
 
 const Home = () => {
   const [data, setData] = useState([]); 

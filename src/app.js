@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const knex = require("./config/config.js");
-const pool = require("./database.js");
 
 const cors = require("cors");
 const corsOptions = {
@@ -22,17 +21,15 @@ app.get("/", (req, res) => {
 
 app.get("/api/comments", async (req, res) => {
   try {
-    const comments = await pool.query("SELECT * FROM comments ORDER BY id");
+    const comments = await knex("comments").select("*").orderBy("id", "desc");
+    const commentIds = comments.map(comment => comment.id);
+    const replies = await knex("replies")
+      .select("*")
+      .whereIn("comment_id", commentIds);
 
-    const commentIds = comments.rows.map((comment) => comment.id);
-    const replies = await pool.query(
-      "SELECT * FROM replies WHERE comment_id=ANY($1)",
-      [commentIds]
-    );
-
-    const commentsWithReplies = comments.rows.map((comment) => {
-      const commentReplies = replies.rows.filter(
-        (reply) => reply.comment_id === comment.id
+    const commentsWithReplies = comments.map(comment => {
+      const commentReplies = replies.filter(
+        reply => reply.comment_id === comment.id
       );
       return {
         ...comment,
@@ -53,16 +50,12 @@ app.post("/api/comments", async (req, res) => {
   try {
     const { content } = req.body;
     const username = "John";
-    console.log("New comment content:", content);
-
-    const query =
-      "INSERT INTO comments(username, content) VALUES ($1, $2) RETURNING * ";
-
-    const result = await pool.query(query, [username, content]);
-    const newComment = result.rows[0];
+    const comments = await knex("comments")
+      .insert([{ username, content }])
+      .returning("*");
 
     res.status(200).json({
-      newComment: newComment,
+      newComment: comments[0],
     });
   } catch (error) {
     console.error("Error executing query:", error.message);
@@ -75,16 +68,12 @@ app.post("/api/replies", async (req, res) => {
     const { content, commentId } = req.body;
     const username = "momo";
 
-    const query =
-      "INSERT INTO replies(comment_id, username, content) VALUES ($1, $2, $3) RETURNING *";
-
-    const result = await pool.query(query, [commentId, username, content]);
-
-    const newReply = result.rows[0];
+    const replies = await knex("replies")
+      .insert([{ comment_id: commentId, username, content }])
+      .returning("*");
 
     res.status(200).json({
-      // success: true,
-      newReply: newReply,
+      newReply: replies[0],
     });
   } catch (error) {
     console.error("Error executing query:", error.message);
@@ -97,14 +86,16 @@ app.post("/api/comments/search", async (req, res) => {
     const { search } = req.body;
 
     if (search.trim() === "") {
-      const comments = await pool.query("SELECT * FROM comments ORDER BY id");
-      res.status(200).json({ results: comments.rows });
+      const results = await knex("comments").select("*").orderBy("id", "desc");
+      res.status(200).json({ results });
     } else {
-      const comments = await pool.query(
-        "SELECT * FROM comments WHERE content ILIKE $1 ORDER BY id",
-        [`%${search}%`]
-      );
-      res.status(200).json({ results: comments.rows });
+      const searchTerm = `%${search}%`;
+      const results = await knex("comments")
+        .select("*")
+        .where("content", "ILIKE", searchTerm)
+        .orderBy("id");
+
+      res.status(200).json({ results });
     }
   } catch (error) {
     console.error("Error executing search query:", error.message);
@@ -114,12 +105,10 @@ app.post("/api/comments/search", async (req, res) => {
 
 app.delete("/api/comments/:commentId", async (req, res) => {
   try {
-    const commentId = req.params.commentId;
+    const { commentId } = req.params;
 
-    await pool.query("DELETE FROM replies WHERE comment_id = $1", [commentId]);
-
-    await pool.query("DELETE FROM comments WHERE id = $1", [commentId]);
-
+    await knex("replies").where("comment_id", "=", commentId).del();
+    await knex("comments").where("id", "=", commentId).del();
     res
       .status(200)
       .json({ message: "Comment and associated replies deleted successfully" });
@@ -133,7 +122,7 @@ app.delete("/api/replies/:replyId", async (req, res) => {
   try {
     const replyId = req.params.replyId;
 
-    await pool.query("DELETE FROM replies WHERE id = $1", [replyId]);
+    await knex("replies").where("id", "=", replyId).del();
 
     res.status(200).json({ message: "Reply deleted successfully" });
   } catch (error) {
