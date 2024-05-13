@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Header from "./Components/Header";
+import NavBar from "./Components/NavBar";
+import Home from "./Components/Home";
+import Friends from "./Components/Friends";
+import MyPage from "./Components/MyPage";
 import "./App.css";
 import Comment from "./Components/Comment";
 import Post from "./Components/Post";
 
 const App = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    // const res = await fetch("/api/comments");
-    const res = await fetch("http://localhost:5000/api/comments");
-    const jsonData = await res.json();
-    setData(jsonData.comments);
-  };
-
   return (
-    <>
-      <div className="comments">
-        {data.map(comment => (
-          <Comment comment={comment} key={comment.id} />
-        ))}
-      </div>
-      <Post />
-    </>
+    <div className="App">
+      <Header />
+      <Router>
+        <div className="content-wrapper">
+          <NavBar />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/Friends" element={<Friends />} />
+              <Route path="/MyPage" element={<MyPage />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
+    </div>
   );
 };
 
