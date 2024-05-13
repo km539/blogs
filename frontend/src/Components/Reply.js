@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/Reply.css";
+import "../Styles/Reply.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 

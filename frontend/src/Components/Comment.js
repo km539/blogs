@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Reply from "./Reply";
-import "../styles/Comment.css";
+import "../Styles/Comment.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 

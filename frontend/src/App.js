@@ -7,8 +7,6 @@ import Home from "./Components/Home";
 import Friends from "./Components/Friends";
 import MyPage from "./Components/MyPage";
 import "./App.css";
-import Comment from "./Components/Comment";
-import Post from "./Components/Post";
 
 const App = () => {
   return (
