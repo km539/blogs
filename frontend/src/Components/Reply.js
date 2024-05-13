@@ -3,12 +3,29 @@ import "../Styles/Reply.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-const Reply = ({ replyData }) => {
+const Reply = ({ replyData, onDelete}) => {
   const [reply] = useState(replyData);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   const toggleDeleteButton = () => {
     setShowDeleteButton(!showDeleteButton);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/replies/${reply.id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        console.log("Reply deleted successfully!");
+        onDelete(reply.id); 
+      } else {
+        console.error("Failed to delete reply:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting reply:", error);
+    }
   };
 
   return (
@@ -33,7 +50,7 @@ const Reply = ({ replyData }) => {
           <FontAwesomeIcon icon={faEllipsisV} />
         </div>
         {showDeleteButton && (
-          <button className="delete-button">
+          <button className="delete-button" onClick={handleDelete}>
             削除
           </button>
         )}

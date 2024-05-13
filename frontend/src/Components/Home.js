@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import "../Styles/Home.css";
 
 const Home = () => {
-  const [data, setData] = useState([]); //comments
+  const [data, setData] = useState([]); 
   const [comment, setComment] = useState("");
   const [search, setSearch] = useState("");
 
@@ -81,8 +81,13 @@ const Home = () => {
       console.error("Error adding comment:", error);
     }
   };
+  
   const updateComments = (newComment) => {
     setData((prevComments) => [...prevComments, newComment]);
+  };
+
+  const handleDeleteComment = async (deletedId) => {
+    setData((prevData) => prevData.filter(comment => comment.id !== deletedId));
   };
 
   return (
@@ -104,7 +109,7 @@ const Home = () => {
           {data.map((comment) => {
             return (
               <div key={comment.id}>
-                <Comment key={comment.id} commentData={comment} />
+                <Comment key={comment.id} commentData={comment} onDelete={handleDeleteComment}/>
               </div>
             );
           })}

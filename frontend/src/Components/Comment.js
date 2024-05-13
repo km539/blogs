@@ -4,10 +4,32 @@ import "../Styles/Comment.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-const Comment = ({ commentData }) => {
+const Comment = ({ commentData, onDelete }) => {
   const [comment, setComment] = useState(commentData);
   const [replyContent, setReplyContent] = useState("");
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [deletedReplyId, setDeletedReplyId] = useState(null);
+  
+  const handleDeleteComment = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/comments/${comment.id}`, {
+        method: "DELETE",
+      });
+  
+      if (res.ok) {
+        console.log("Comment deleted successfully!");
+        onDelete(comment.id);
+      } else {
+        console.error("Failed to delete comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };  
+
+  const handleDeleteReply = (deletedId) => {
+    setDeletedReplyId(deletedId);
+  };
 
   const toggleDeleteButton = () => {
     setShowDeleteButton(!showDeleteButton);
@@ -72,7 +94,7 @@ const Comment = ({ commentData }) => {
             <FontAwesomeIcon icon={faEllipsisV} />
           </div>
           {showDeleteButton && (
-            <button className="delete-button">
+            <button className="delete-button" onClick={handleDeleteComment}>
               削除
             </button>
           )}
@@ -83,7 +105,8 @@ const Comment = ({ commentData }) => {
       <div className="replies">
         {comment.replies &&
           comment.replies.map((reply) => (
-            <Reply key={reply.id} replyData={reply} />
+            reply.id !== deletedReplyId && 
+            <Reply key={reply.id} replyData={reply} onDelete={handleDeleteReply} />
           ))}
       </div>
       <div className="replyBox">

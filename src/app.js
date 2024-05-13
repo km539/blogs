@@ -19,6 +19,35 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get("/api/comments", async (req, res) => {
+  try {
+    const comments = await pool.query("SELECT * FROM comments ORDER BY id");
+
+    const commentIds = comments.rows.map((comment) => comment.id);
+    const replies = await pool.query(
+      "SELECT * FROM replies WHERE comment_id=ANY($1)",
+      [commentIds]
+    );
+
+    const commentsWithReplies = comments.rows.map((comment) => {
+      const commentReplies = replies.rows.filter(
+        (reply) => reply.comment_id === comment.id
+      );
+      return {
+        ...comment,
+        replies: commentReplies,
+      };
+    });
+
+    res.status(200).json({
+      comments: commentsWithReplies,
+    });
+  } catch (error) {
+    console.error("Error executing query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.post("/api/comments", async (req, res) => {
   try {
     const { content } = req.body;
@@ -70,7 +99,6 @@ app.post("/api/comments/search", async (req, res) => {
       const comments = await pool.query("SELECT * FROM comments ORDER BY id");
       res.status(200).json({ results: comments.rows });
     } else {
-     
       const comments = await pool.query(
         "SELECT * FROM comments WHERE content ILIKE $1 ORDER BY id",
         [`%${search}%`]
@@ -83,31 +111,32 @@ app.post("/api/comments/search", async (req, res) => {
   }
 });
 
-app.get("/api/comments", async (req, res) => {
+app.delete("/api/comments/:commentId", async (req, res) => {
   try {
-    const comments = await pool.query("SELECT * FROM comments ORDER BY id");
+    const commentId = req.params.commentId;
 
-    const commentIds = comments.rows.map((comment) => comment.id);
-    const replies = await pool.query(
-      "SELECT * FROM replies WHERE comment_id=ANY($1)",
-      [commentIds]
-    );
+    await pool.query("DELETE FROM replies WHERE comment_id = $1", [commentId]);
 
-    const commentsWithReplies = comments.rows.map((comment) => {
-      const commentReplies = replies.rows.filter(
-        (reply) => reply.comment_id === comment.id
-      );
-      return {
-        ...comment,
-        replies: commentReplies,
-      };
-    });
+    await pool.query("DELETE FROM comments WHERE id = $1", [commentId]);
 
-    res.status(200).json({
-      comments: commentsWithReplies,
-    });
+    res
+      .status(200)
+      .json({ message: "Comment and associated replies deleted successfully" });
   } catch (error) {
-    console.error("Error executing query:", error.message);
+    console.error("Error deleting comment and associated replies:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.delete("/api/replies/:replyId", async (req, res) => {
+  try {
+    const replyId = req.params.replyId;
+
+    await pool.query("DELETE FROM replies WHERE id = $1", [replyId]);
+
+    res.status(200).json({ message: "Reply deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting reply:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });
