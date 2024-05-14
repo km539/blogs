@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const pool = require("./database.js");
+const knex = require("./config/config.js");
 
 const cors = require("cors");
 const corsOptions = {
@@ -19,61 +19,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.post("/api/comments", async (req, res) => {
-  try {
-    const { content } = req.body;
-    const username = "John";
-
-    const query =
-      "INSERT INTO comments(username, content) VALUES ($1, $2) RETURNING * ";
-
-    const result = await pool.query(query, [username, content]);
-    const newComment = result.rows[0];
-
-    res.status(200).json({
-      newComment: newComment,
-    });
-  } catch (error) {
-    console.error("Error executing query:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.post("/api/replies", async (req, res) => {
-  try {
-    const { content, commentId } = req.body;
-    const username = "momo";
-
-    const query =
-      "INSERT INTO replies(comment_id, username, content) VALUES ($1, $2, $3) RETURNING *";
-
-    const result = await pool.query(query, [commentId, username, content]);
-
-    const newReply = result.rows[0];
-
-    res.status(200).json({
-      // success: true,
-      newReply: newReply,
-    });
-  } catch (error) {
-    console.error("Error executing query:", error.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 app.get("/api/comments", async (req, res) => {
   try {
-    const comments = await pool.query("SELECT * FROM comments ORDER BY id");
+    const comments = await knex("comments").select("*").orderBy("id", "desc");
+    const commentIds = comments.map(comment => comment.id);
+    const replies = await knex("replies")
+      .select("*")
+      .whereIn("comment_id", commentIds);
 
-    const commentIds = comments.rows.map((comment) => comment.id);
-    const replies = await pool.query(
-      "SELECT * FROM replies WHERE comment_id=ANY($1)",
-      [commentIds]
-    );
-
-    const commentsWithReplies = comments.rows.map((comment) => {
-      const commentReplies = replies.rows.filter(
-        (reply) => reply.comment_id === comment.id
+    const commentsWithReplies = comments.map(comment => {
+      const commentReplies = replies.filter(
+        reply => reply.comment_id === comment.id
       );
       return {
         ...comment,
@@ -86,6 +42,91 @@ app.get("/api/comments", async (req, res) => {
     });
   } catch (error) {
     console.error("Error executing query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/comments", async (req, res) => {
+  try {
+    const { content } = req.body;
+    const username = "John";
+    const comments = await knex("comments")
+      .insert([{ username, content }])
+      .returning("*");
+
+    res.status(200).json({
+      newComment: comments[0],
+    });
+  } catch (error) {
+    console.error("Error executing query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/replies", async (req, res) => {
+  try {
+    const { content, commentId } = req.body;
+    const username = "momo";
+
+    const replies = await knex("replies")
+      .insert([{ comment_id: commentId, username, content }])
+      .returning("*");
+
+    res.status(200).json({
+      newReply: replies[0],
+    });
+  } catch (error) {
+    console.error("Error executing query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/comments/search", async (req, res) => {
+  try {
+    const { search } = req.body;
+
+    if (search.trim() === "") {
+      const results = await knex("comments").select("*").orderBy("id", "desc");
+      res.status(200).json({ results });
+    } else {
+      const searchTerm = `%${search}%`;
+      const results = await knex("comments")
+        .select("*")
+        .where("content", "ILIKE", searchTerm)
+        .orderBy("id");
+
+      res.status(200).json({ results });
+    }
+  } catch (error) {
+    console.error("Error executing search query:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.delete("/api/comments/:commentId", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    await knex("replies").where("comment_id", "=", commentId).del();
+    await knex("comments").where("id", "=", commentId).del();
+    res
+      .status(200)
+      .json({ message: "Comment and associated replies deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting comment and associated replies:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.delete("/api/replies/:replyId", async (req, res) => {
+  try {
+    const replyId = req.params.replyId;
+
+    await knex("replies").where("id", "=", replyId).del();
+
+    res.status(200).json({ message: "Reply deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting reply:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });

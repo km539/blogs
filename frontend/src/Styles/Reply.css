@@ -11,7 +11,7 @@
     flex-wrap: nowrap;
     flex-direction: row;
     align-content: flex-start;
-    align-items: baseline;
+    position: relative; 
   } 
   
   .commentUser1 {
@@ -39,8 +39,26 @@
 
   .commentReply {
     width: 80%;
+    height: 40%;
     margin-top: 10px;
     margin-right: 10px;
     resize: none;
-    background-color: skyblue;
+    background-color: whitesmoke;
   }
+
+  .replies .delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute; 
+    bottom: 70px; 
+    right: 30px;
+  }
+  
+  .replies .delete-button:hover {
+    background-color: #c82333;
+  }
+  
