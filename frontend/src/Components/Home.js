@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import "../Styles/Home.css";
 
 const Home = () => {
-  const [data, setData] = useState([]); 
+  const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
   const [search, setSearch] = useState("");
 
@@ -13,8 +13,7 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/comments");
-      // const res = await fetch("/api/comments");
+      const res = await fetch("/api/comments");
       const jsonData = await res.json();
       // console.log("Comments data:", jsonData);
       setData(jsonData.comments);
@@ -23,19 +22,17 @@ const Home = () => {
     }
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearch(e.target.value);
   };
 
-  const handleSearchSubmit = async (e) => {
+  const handleSearchSubmit = async e => {
     e.preventDefault();
     if (search.trim() === "") {
-      
       getData();
     } else {
-      
       try {
-        const res = await fetch("http://localhost:5000/api/comments/search", {
+        const res = await fetch("/api/comments/search", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +47,7 @@ const Home = () => {
     }
   };
 
-  const handleCommentChange = (e) => {
+  const handleCommentChange = e => {
     setComment(e.target.value);
   };
 
@@ -60,8 +57,8 @@ const Home = () => {
         alert("コメントを入力してください。");
         return;
       }
-      const res = await fetch("http://localhost:5000/api/comments", {
-        // const res = await fetch("/api/comments", {
+
+      const res = await fetch("/api/comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,13 +78,13 @@ const Home = () => {
       console.error("Error adding comment:", error);
     }
   };
-  
-  const updateComments = (newComment) => {
-    setData((prevComments) => [...prevComments, newComment]);
+
+  const updateComments = newComment => {
+    setData(prevComments => [...prevComments, newComment]);
   };
 
-  const handleDeleteComment = async (deletedId) => {
-    setData((prevData) => prevData.filter(comment => comment.id !== deletedId));
+  const handleDeleteComment = async deletedId => {
+    setData(prevData => prevData.filter(comment => comment.id !== deletedId));
   };
 
   return (
@@ -106,10 +103,14 @@ const Home = () => {
         </div>
 
         <div className="comments">
-          {data.map((comment) => {
+          {data.map(comment => {
             return (
               <div key={comment.id}>
-                <Comment key={comment.id} commentData={comment} onDelete={handleDeleteComment}/>
+                <Comment
+                  key={comment.id}
+                  commentData={comment}
+                  onDelete={handleDeleteComment}
+                />
               </div>
             );
           })}
@@ -117,7 +118,7 @@ const Home = () => {
         <div className="post">
           <form
             className="postForm"
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
               sendComment();
             }}

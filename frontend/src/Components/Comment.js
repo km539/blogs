@@ -9,13 +9,13 @@ const Comment = ({ commentData, onDelete }) => {
   const [replyContent, setReplyContent] = useState("");
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deletedReplyId, setDeletedReplyId] = useState(null);
-  
+
   const handleDeleteComment = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/comments/${comment.id}`, {
+      const res = await fetch(`/api/comments/${comment.id}`, {
         method: "DELETE",
       });
-  
+
       if (res.ok) {
         console.log("Comment deleted successfully!");
         onDelete(comment.id);
@@ -25,9 +25,9 @@ const Comment = ({ commentData, onDelete }) => {
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
-  };  
+  };
 
-  const handleDeleteReply = (deletedId) => {
+  const handleDeleteReply = deletedId => {
     setDeletedReplyId(deletedId);
   };
 
@@ -35,7 +35,7 @@ const Comment = ({ commentData, onDelete }) => {
     setShowDeleteButton(!showDeleteButton);
   };
 
-  const handleReplyChange = (e) => {
+  const handleReplyChange = e => {
     setReplyContent(e.target.value);
   };
 
@@ -46,8 +46,7 @@ const Comment = ({ commentData, onDelete }) => {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/replies", {
-        //  const res = await fetch("/api/replies", {
+      const res = await fetch("/api/replies", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,9 +67,9 @@ const Comment = ({ commentData, onDelete }) => {
     }
   };
 
-  const updateReplies = (newReply) => {
+  const updateReplies = newReply => {
     //console.log("New reply:", newReply);
-    setComment((prevComment) => {
+    setComment(prevComment => {
       return {
         ...prevComment,
         replies: [...prevComment.replies, newReply],
@@ -104,13 +103,19 @@ const Comment = ({ commentData, onDelete }) => {
 
       <div className="replies">
         {comment.replies &&
-          comment.replies.map((reply) => (
-            reply.id !== deletedReplyId && 
-            <Reply key={reply.id} replyData={reply} onDelete={handleDeleteReply} />
-          ))}
+          comment.replies.map(
+            reply =>
+              reply.id !== deletedReplyId && (
+                <Reply
+                  key={reply.id}
+                  replyData={reply}
+                  onDelete={handleDeleteReply}
+                />
+              )
+          )}
       </div>
       <div className="replyBox">
-        <form className="replyForm" onSubmit={(e) => e.preventDefault()}>
+        <form className="replyForm" onSubmit={e => e.preventDefault()}>
           <textarea
             name="replyComment"
             value={replyContent}

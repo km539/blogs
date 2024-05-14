@@ -13,7 +13,7 @@ const Reply = ({ replyData, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/replies/${reply.id}`, {
+      const res = await fetch(`/api/replies/${reply.id}`, {
         method: "DELETE",
       });
 
