@@ -5,7 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 const Comment = ({ commentData, onDelete }) => {
-  const [comment, setComment] = useState(commentData);
+  const [comment, setComment] = useState({
+    ...commentData,
+    replies: commentData.replies || []  
+  });
   const [replyContent, setReplyContent] = useState("");
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deletedReplyId, setDeletedReplyId] = useState(null);
@@ -73,7 +76,7 @@ const Comment = ({ commentData, onDelete }) => {
     setComment((prevComment) => {
       return {
         ...prevComment,
-        replies: [...prevComment.replies, newReply],
+        replies: [...(prevComment.replies || []), newReply],
       };
     });
   };

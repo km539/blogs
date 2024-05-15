@@ -52,7 +52,7 @@ app.post("/api/comments", async (req, res) => {
   try {
     const { content } = req.body;
     const username = "John";
-    console.log("New comment content:", content);
+    //console.log("New comment content:", content);
 
     const query =
       "INSERT INTO comments(username, content) VALUES ($1, $2) RETURNING * ";
@@ -61,7 +61,7 @@ app.post("/api/comments", async (req, res) => {
     const newComment = result.rows[0];
 
     res.status(200).json({
-      newComment: newComment,
+      newComment: { ...newComment, replies: [] },
     });
   } catch (error) {
     console.error("Error executing query:", error.message);
