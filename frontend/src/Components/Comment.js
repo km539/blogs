@@ -7,39 +7,34 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 const Comment = ({ commentData, onDelete }) => {
   const [comment, setComment] = useState({
     ...commentData,
-    replies: commentData.replies || []  
+    replies: commentData.replies || [],
   });
   const [replyContent, setReplyContent] = useState("");
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deletedReplyId, setDeletedReplyId] = useState(null);
-  
-  const handleDeleteComment = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/comments/${comment.id}`, {
-        method: "DELETE",
-      });
-  
-      if (res.ok) {
-        console.log("Comment deleted successfully!");
-        onDelete(comment.id);
-      } else {
-        console.error("Failed to delete comment:", res.statusText);
-      }
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-    }
-  };  
+  const [showEditButton, setShowEditButton] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editedContent, setEditedContent] = useState(commentData.content);
 
-  const handleDeleteReply = (deletedId) => {
-    setDeletedReplyId(deletedId);
+  const handleReplyChange = (e) => {
+    setReplyContent(e.target.value);
   };
 
   const toggleDeleteButton = () => {
     setShowDeleteButton(!showDeleteButton);
   };
 
-  const handleReplyChange = (e) => {
-    setReplyContent(e.target.value);
+  const handleDeleteReply = (deletedId) => {
+    setDeletedReplyId(deletedId);
+  };
+
+  const toggleEditButton = () => {
+    setShowEditButton(!showEditButton);
+  };
+
+  //編集モードの切り替え関数
+  const handleEdit = () => {
+    setEditMode(true);
   };
 
   const handleReply = async () => {
@@ -50,7 +45,6 @@ const Comment = ({ commentData, onDelete }) => {
       }
 
       const res = await fetch("http://localhost:5000/api/replies", {
-        //  const res = await fetch("/api/replies", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,13 +66,63 @@ const Comment = ({ commentData, onDelete }) => {
   };
 
   const updateReplies = (newReply) => {
-    //console.log("New reply:", newReply);
     setComment((prevComment) => {
       return {
         ...prevComment,
         replies: [...(prevComment.replies || []), newReply],
       };
     });
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/comments/${comment.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (res.ok) {
+        console.log("Comment deleted successfully!");
+        onDelete(comment.id);
+      } else {
+        console.error("Failed to delete comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  //編集内容を送信する関数
+  const handleEditSubmit = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/comments/${comment.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: editedContent }),
+        }
+      );
+
+      if (res.ok) {
+        console.log("Comment edited successfully!");
+        setEditMode(false);
+        toggleEditButton();
+        toggleDeleteButton();
+        setComment((prevComment) => ({
+          ...prevComment,
+          content: editedContent,
+        }));
+      } else {
+        console.error("Failed to edit comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error editing comment:", error);
+    }
   };
 
   return (
@@ -93,24 +137,57 @@ const Comment = ({ commentData, onDelete }) => {
             <p>{comment.username}</p>
           </div>
           <p className="commentCreatedAt">{comment.createdAt}</p>
-          <div className="menu-icon" onClick={toggleDeleteButton}>
+          <div
+            className="menu-icon"
+            onClick={() => {
+              toggleDeleteButton();
+              toggleEditButton();
+            }}
+          >
             <FontAwesomeIcon icon={faEllipsisV} />
           </div>
+
           {showDeleteButton && (
             <button className="delete-button" onClick={handleDeleteComment}>
               削除
             </button>
           )}
+          {showEditButton && (
+            <button className="edit-button" onClick={handleEdit}>
+              編集
+            </button>
+          )}
         </div>
-        <textarea readOnly rows={4} cols={50} defaultValue={comment.content} />
+        {editMode ? (
+          <textarea
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+            rows={4}
+            cols={50}
+          />
+        ) : (
+          <p>{comment.content}</p>
+        )}
+
+        {editMode && (
+          <button className="edit-submit-button" onClick={handleEditSubmit}>
+            送信
+          </button>
+        )}
       </div>
 
       <div className="replies">
         {comment.replies &&
-          comment.replies.map((reply) => (
-            reply.id !== deletedReplyId && 
-            <Reply key={reply.id} replyData={reply} onDelete={handleDeleteReply} />
-          ))}
+          comment.replies.map(
+            (reply) =>
+              reply.id !== deletedReplyId && (
+                <Reply
+                  key={reply.id}
+                  replyData={reply}
+                  onDelete={handleDeleteReply}
+                />
+              )
+          )}
       </div>
       <div className="replyBox">
         <form className="replyForm" onSubmit={(e) => e.preventDefault()}>
@@ -123,7 +200,7 @@ const Comment = ({ commentData, onDelete }) => {
             required
           ></textarea>
           <button type="button" onClick={handleReply}>
-            Reply
+            返信
           </button>
         </form>
       </div>

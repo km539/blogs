@@ -141,4 +141,44 @@ app.delete("/api/replies/:replyId", async (req, res) => {
   }
 });
 
+app.put("/api/comments/:commentId", async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    const { content } = req.body;
+
+    const query = "UPDATE comments SET content = $1 WHERE id = $2 RETURNING *";
+    const result = await pool.query(query, [content, commentId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    res.status(200).json({ updatedComment: result.rows[0] });
+  } catch (error) {
+    console.error("Error updating comment:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+app.put("/api/replies/:replyId", async (req, res) => {
+  try {
+    const replyId = req.params.replyId;
+    const { content } = req.body;
+
+    const query = "UPDATE replies SET content = $1 WHERE id = $2 RETURNING *";
+    const result = await pool.query(query, [content, replyId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Reply not found" });
+    }
+
+    res.status(200).json({ updatedReply: result.rows[0] });
+  } catch (error) {
+    console.error("Error updating reply:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 module.exports = app;

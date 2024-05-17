@@ -130,7 +130,7 @@ const Home = () => {
               rows="3"
               required
             ></textarea>
-            <button type="submit">Post</button>
+            <button type="submit">ポスト</button>
           </form>
         </div>
       </div>
