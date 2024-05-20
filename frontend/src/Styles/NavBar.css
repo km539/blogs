@@ -1,41 +1,44 @@
 #nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    align-items: flex-start; 
-    width: auto; 
-    /* height: 100vh;  */
-    background-color: paleturquoise; 
-    padding: 50px; 
-  }
   
-  ul {
-    list-style-type: none; 
-    padding: 0;
-  }
-  
-  li {
-    margin-bottom: 10px; 
-  }
-  
-  a {
-    text-decoration: none;
-    color: #130e0e;
-  }
-  
-  a:hover {
-    color: #ff0;
-  }
-  
-  .active {
-    text-decoration: underline;
-  }   
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: flex-start; 
+  width: auto; 
+  height: 100vh; 
+  background-color: paleturquoise; 
+  padding: 50px; 
+  position: fixed;
+  /* bottom: 0; */
+}
 
-  .Homeicon,
+ul {
+  list-style-type: none; 
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px; 
+}
+
+a {
+  text-decoration: none;
+  color: #130e0e;
+}
+
+a:hover {
+  color: #ff0;
+}
+
+.active {
+  text-decoration: underline;
+}   
+
+.Homeicon,
 .Friendsicon,
 .MyPageicon {
-  width: 20px; 
-  height: 20px;
-  margin-right: 10px; 
+width: 20px; 
+height: 20px;
+margin-right: 10px; 
 }
-  
+
