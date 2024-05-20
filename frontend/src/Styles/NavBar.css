@@ -1,24 +1,22 @@
 #nav {
-  
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
-  align-items: flex-start; 
-  width: auto; 
-  height: 100vh; 
-  background-color: paleturquoise; 
-  padding: 50px; 
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: auto;
+  height: 100vh;
+  background-color: paleturquoise;
+  padding: 50px;
   position: fixed;
-  /* bottom: 0; */
 }
 
 ul {
-  list-style-type: none; 
+  list-style-type: none;
   padding: 0;
 }
 
 li {
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 a {
@@ -32,13 +30,14 @@ a:hover {
 
 .active {
   text-decoration: underline;
-}   
+}
 
 .Homeicon,
 .Friendsicon,
 .MyPageicon {
-width: 20px; 
-height: 20px;
-margin-right: 10px; 
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  mix-blend-mode: multiply;
 }
 
