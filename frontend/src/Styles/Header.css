@@ -1,18 +1,18 @@
 .header {
-    display: flex;
-    align-items: center;
-    padding: -10px;
-    background-color: #333;
-    color: white; 
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-  }
-  
-  .icon {
-    width: 40px; 
-    height: 40px; 
-    margin-right: 10px; 
-    border-radius: 50%;
-  }
-  
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: goldenrod;
+  color: white; 
+  width: 100%;
+  position: fixed; 
+  top: 0; 
+  z-index: 1000; 
+}
+
+.icon {
+  width: 40px; 
+  height: 40px; 
+  margin-right: 10px; 
+  border-radius: 50%;
+}

@@ -1,15 +1,18 @@
 .comment {
-  border: 1px solid #ccc;
+  border: solid black;
+    border-width: 2px 4px 4px 1px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: gainsboro;
-  border-radius: 5px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .commentContent {
-  background-color: #f9f9f9;
+  background-color: whitesmoke;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
+  border: solid black;
+  border-width: 2px 4px 4px 1px;
 }
 
 .commentText {
@@ -32,11 +35,16 @@
   margin-right: 10px;
 }
 
-.commentText .commentCreatedAt {
-  margin-left: auto; 
-  position: absolute; 
-  right: 45px;
-  bottom: 11px;
+.commentUser p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.commentCreatedAt {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #888;
 }
 
 .menu-icon {
@@ -69,8 +77,8 @@
   border-radius: 4px; 
   cursor: pointer; 
   position: absolute;
-  bottom: -5px; 
-  right: 30px;
+  bottom: 25px; 
+  right: 50px;
 }
 
 .delete-button:hover {
@@ -85,8 +93,8 @@
   border-radius: 4px; 
   cursor: pointer; 
   position: absolute; 
-  bottom: -5px; 
-  right: 80px;
+  bottom: 25px; 
+  right: 95px;
 }
 
 .edit-button:hover {
@@ -108,7 +116,7 @@
 }
 
 .edit-submit-button {
-  background-color: #28a745;
+  background-color: goldenrod;
   color: white;
   border: none;
   font-size: 14px;
@@ -126,7 +134,7 @@
 .replies {
   margin-top: 10px;
   margin-left: 40px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 }
 
 .replyBox {
@@ -136,20 +144,21 @@
 
 .replyBox form {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-direction: row;
 }
 
 .replyBox textarea {
   width: 90%;
   resize: none;
+  border-radius: 25px;
 }
 
 .replyBox button {
   display: inline-block;
-  background-color: skyblue;
+  background-color: goldenrod;
   color: black;
-  padding: px 20px; /* ボタンの内側の余白を設定 */
+  padding: 5px 20px; /* ボタンの内側の余白を設定 */
   cursor: pointer;
+  border-radius: 20px;
 }
-

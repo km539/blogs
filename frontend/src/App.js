@@ -14,7 +14,9 @@ const App = () => {
       <Header />
       <Router>
         <div className="content-wrapper">
-          <NavBar />
+          <div className="nav-bar">
+            <NavBar />
+          </div>
           <div className="content">
             <Routes>
               <Route path="/" element={<Home />} />

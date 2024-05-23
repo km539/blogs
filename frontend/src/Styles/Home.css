@@ -2,20 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px;
   margin: 0 auto;
-  width: 100%; 
   padding: 0 30px; 
+  max-width: 800px;
+  width: 100%; 
 }
 
 .Search {
-  margin-top: 20px;
-  padding: 10px;
   width: 100%;
 }
 
 .Search Form {
  display: flex;
+ margin-bottom: 10px;
  width: 100%;
 }
 
@@ -24,13 +23,14 @@
   padding: 5px;
   margin-right: 5px;
   border: 1px solid #ccc;
+  border-radius: 20px;
 }
 
 .Search button {
-  background-color: pink;
+  background-color: goldenrod;
   color: black;
-  padding: 5px 10px;
-  border: none;
+  padding: 5px 15px;
+  border-radius: 15px;
   cursor: pointer;
 }
 
@@ -40,13 +40,13 @@
 }
 
 .post {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   padding: 10px;
   width: 100%;
-  max-width: 800px;
-  z-index: 999;
   background-color: white;
+  border-style: solid;
+  border-radius: 20px;
 }
 
 .postForm {
@@ -58,12 +58,21 @@
   flex: 1;
   width: 100%;
   resize: none;
+  border-radius: 5px;
 }
 
 .postForm button {
-  background-color: pink;
+  background-color: goldenrod;
   color: black;
-  padding: 5px 10px;
+  padding: 5px 20px;
   cursor: pointer;
-  width: 50px;
+  width: 70px;
+  border-radius: 20px;
 }
+
+@media screen and (max-width: 960px) {
+  #nav {
+    height: calc(100vh - 140px); 
+  }
+}
+

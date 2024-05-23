@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Reply from "./Reply";
 import "../Styles/Comment.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,21 +20,14 @@ const Comment = ({ commentData, onDelete }) => {
     setReplyContent(e.target.value);
   };
 
-  const toggleDeleteButton = () => {
-    setShowDeleteButton(!showDeleteButton);
-  };
-
   const handleDeleteReply = (deletedId) => {
     setDeletedReplyId(deletedId);
   };
 
-  const toggleEditButton = () => {
-    setShowEditButton(!showEditButton);
-  };
-
-  //編集モードの切り替え関数
   const handleEdit = () => {
     setEditMode(true);
+    setShowEditButton(false);
+    setShowDeleteButton(false);
   };
 
   const handleReply = async () => {
@@ -94,7 +87,6 @@ const Comment = ({ commentData, onDelete }) => {
     }
   };
 
-  //編集内容を送信する関数
   const handleEditSubmit = async () => {
     try {
       const res = await fetch(
@@ -111,8 +103,6 @@ const Comment = ({ commentData, onDelete }) => {
       if (res.ok) {
         console.log("Comment edited successfully!");
         setEditMode(false);
-        toggleEditButton();
-        toggleDeleteButton();
         setComment((prevComment) => ({
           ...prevComment,
           content: editedContent,
@@ -125,6 +115,32 @@ const Comment = ({ commentData, onDelete }) => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menuIcon = document.querySelector(".menu-icon");
+      const deleteButton = document.querySelector(".delete-button");
+      const editButton = document.querySelector(".edit-button");
+  
+      if (menuIcon && menuIcon.contains(event.target)) {
+        return;
+      }
+  
+      if (deleteButton && !deleteButton.contains(event.target)) {
+        setShowDeleteButton(false);
+      }
+  
+      if (editButton && !editButton.contains(event.target)) {
+        setShowEditButton(false);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
   return (
     <div className="comment" key={comment.id}>
       <div className="commentContent">
@@ -134,14 +150,13 @@ const Comment = ({ commentData, onDelete }) => {
               src="https://www.comingsoon.net/wp-content/uploads/sites/3/2022/06/Baby-Groot.jpeg?w=800"
               alt="Baby Groot"
             />
-            <p>{comment.username}</p>
+            <p>{comment.username} <span className="commentCreatedAt">{comment.createdAt}</span></p>
           </div>
-          <p className="commentCreatedAt">{comment.createdAt}</p>
           <div
             className="menu-icon"
             onClick={() => {
-              toggleDeleteButton();
-              toggleEditButton();
+              setShowDeleteButton(!showDeleteButton);
+              setShowEditButton(!showEditButton);
             }}
           >
             <FontAwesomeIcon icon={faEllipsisV} />
@@ -159,20 +174,19 @@ const Comment = ({ commentData, onDelete }) => {
           )}
         </div>
         {editMode ? (
-          <textarea
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-            rows={4}
-            cols={50}
-          />
+          <div>
+            <textarea
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              rows={4}
+              cols={50}
+            />
+            <button className="edit-submit-button" onClick={handleEditSubmit}>
+              送信
+            </button>
+          </div>
         ) : (
           <p>{comment.content}</p>
-        )}
-
-        {editMode && (
-          <button className="edit-submit-button" onClick={handleEditSubmit}>
-            送信
-          </button>
         )}
       </div>
 
