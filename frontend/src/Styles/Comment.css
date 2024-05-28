@@ -1,6 +1,6 @@
 .comment {
   border: solid black;
-    border-width: 2px 4px 4px 1px;
+  border-width: 2px 4px 4px 1px;
   padding: 10px;
   margin-bottom: 10px;
   background-color: white;
@@ -8,7 +8,7 @@
 }
 
 .commentContent {
-  background-color: whitesmoke;
+  background-color: #F8F4F1;
   padding: 10px;
   border-radius: 15px;
   border: solid black;
@@ -70,11 +70,11 @@
 }
 
 .delete-button {
-  background-color: #dc3545; 
-  color: white; 
+  background-color: #d9d9d9; 
+  color: black; 
   border: none; 
   font-size: 14px;
-  border-radius: 4px; 
+  border-radius: 20px; 
   cursor: pointer; 
   position: absolute;
   bottom: 25px; 
@@ -82,15 +82,15 @@
 }
 
 .delete-button:hover {
-  background-color: #c82333; 
+  background-color: #d9d9d9; 
 }
 
 .edit-button {
-  background-color: #007bff; 
-  color: white;
+  background-color: #d9d9d9; 
+  color: black;
   border: none; 
   font-size: 14px; 
-  border-radius: 4px; 
+  border-radius: 20px; 
   cursor: pointer; 
   position: absolute; 
   bottom: 25px; 
@@ -98,7 +98,7 @@
 }
 
 .edit-button:hover {
-  background-color: #0056b3; 
+  background-color: #d9d9d9; 
 }
 
 .commentContent textarea {
@@ -108,6 +108,39 @@
   background-color: gainsboro;
 }
 
+.edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-submit-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.edit-submit-button:hover {
+  background-color: #bbb;
+}
+
+.cancel-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
 .commentContent > p  {
   margin-left: 50px;
   font-size: 14px;
@@ -115,36 +148,20 @@
   color: #333;
 }
 
-.edit-submit-button {
-  background-color: goldenrod;
-  color: white;
-  border: none;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-  margin-left: auto; 
-  display: block; 
-}
-
-.edit-submit-button:hover {
-  background-color: #218838;
-}
-
 .replies {
   margin-top: 10px;
   margin-left: 40px;
-  /* background-color: #f9f9f9; */
 }
 
 .replyBox {
-  margin-top: 10px;
   padding: 10px;
+  margin-left: 2cap;
+  margin-bottom: 10px;
 }
 
 .replyBox form {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-direction: row;
 }
 
@@ -156,9 +173,9 @@
 
 .replyBox button {
   display: inline-block;
-  background-color: goldenrod;
+  background-color: #F7CB46;
   color: black;
-  padding: 5px 20px; /* ボタンの内側の余白を設定 */
+  padding: 10px 15px;
   cursor: pointer;
   border-radius: 20px;
 }

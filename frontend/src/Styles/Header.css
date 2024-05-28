@@ -2,12 +2,14 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  background-color: goldenrod;
+  background-color: #F7CB46;
   color: white; 
   width: 100%;
   position: fixed; 
   top: 0; 
   z-index: 1000; 
+  border: solid black;
+  border-width: 0 0 2px 0;
 }
 
 .icon {

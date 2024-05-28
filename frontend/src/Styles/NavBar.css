@@ -20,15 +20,19 @@ ul {
 
 li {
   margin-bottom: 10px;
+  display: flex; 
+  align-items: center; 
 }
 
 a {
   text-decoration: none;
   color: #130e0e;
+  display: flex; 
+  align-items: center; 
 }
 
 a:hover {
-  color: #ff0;
+  color: black;
 }
 
 .active {
@@ -57,3 +61,14 @@ a:hover {
     margin-bottom: 20px;
   }
 }
+
+@media screen and (max-width: 960px) {
+  #nav {
+    height: calc(100vh - 140px); 
+  }
+
+  li {
+    margin-bottom: 10px; 
+  }
+}
+

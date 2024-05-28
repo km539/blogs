@@ -3,13 +3,13 @@
   border-width: 2px 4px 4px 1px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: whitesmoke;
+  background-color: #F8F4F1;
   border-radius: 15px;
   display: block;
 }
 
 .replyContent {
-  background-color: #f9f9f9;
+  background-color: #F8F4F1;
   padding: 10px;
   border-radius: 5px;
 }
@@ -69,11 +69,11 @@
 }
 
 .replies .delete-button {
-  background-color: #dc3545;
-  color: white;
+  background-color: #d9d9d9;
+  color: black;
   border: none;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
   position: absolute;
   bottom: 15px;
@@ -81,15 +81,15 @@
 }
 
 .replies .delete-button:hover {
-  background-color: #c82333;
+  background-color: #d9d9d9;
 }
 
 .replies .edit-button {
-  background-color: #007bff;
-  color: white;
+  background-color: #d9d9d9;
+  color: black;
   border: none;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
   position: absolute;
   bottom: 15px;
@@ -97,7 +97,7 @@
 }
 
 .edit-button:hover {
-  background-color: #0056b3;
+  background-color: #d9d9d9;
 }
 
 .replies .replyTextarea {
@@ -107,6 +107,39 @@
   background-color: gainsboro;
 }
 
+.edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.replies .edit-submit-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.replies .edit-submit-button:hover {
+  background-color: #bbb;
+}
+
+.cancel-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
 .replyContent > p {
   margin-left: 50px;
   font-size: 14px;
@@ -114,18 +147,3 @@
   color: #333;
 }
 
-.replies .edit-submit-button {
-  background-color: goldenrod;
-  color: white;
-  border: none;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-  margin-left: auto;
-  display: block;
-}
-
-.replies .edit-submit-button:hover {
-  background-color: #218838;
-}

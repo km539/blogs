@@ -12,20 +12,22 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <Router>
-        <div className="content-wrapper">
-          <div className="nav-bar">
-            <NavBar />
+      <div className="background-wrapper">
+        <Router>
+          <div className="content-wrapper">
+            <div className="nav-bar">
+              <NavBar />
+            </div>
+            <div className="content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/Friends" element={<Friends />} />
+                <Route path="/MyPage" element={<MyPage />} />
+              </Routes>
+            </div>
           </div>
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/Friends" element={<Friends />} />
-              <Route path="/MyPage" element={<MyPage />} />
-            </Routes>
-          </div>
-        </div>
-      </Router>
+        </Router>
+      </div>
     </div>
   );
 };

@@ -160,7 +160,6 @@ app.put("/api/comments/:commentId", async (req, res) => {
   }
 });
 
-
 app.put("/api/replies/:replyId", async (req, res) => {
   try {
     const replyId = req.params.replyId;
@@ -179,6 +178,5 @@ app.put("/api/replies/:replyId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 module.exports = app;

@@ -33,6 +33,12 @@ const Reply = ({ replyData, onDelete }) => {
     setShowDeleteButton(false);
   };
 
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setEditedContent(replyData.content);
+  };
+
+
   const handleEditSubmit = async () => {
     try {
       const res = await fetch(`http://localhost:5000/api/replies/${replyData.id}`, {
@@ -127,9 +133,14 @@ const Reply = ({ replyData, onDelete }) => {
               rows={4}
               cols={50}
             />
-            <button className="edit-submit-button" onClick={handleEditSubmit}>
-              送信
-            </button>
+            <div className="edit-buttons">
+              <button className="cancel-button" onClick={handleCancelEdit}>
+                キャンセル
+              </button>
+              <button className="edit-submit-button" onClick={handleEditSubmit}>
+                送信
+              </button>
+            </div>
           </div>
         ) : (
           <p>{replyData.content}</p>

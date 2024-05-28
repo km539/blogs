@@ -30,6 +30,11 @@ const Comment = ({ commentData, onDelete }) => {
     setShowDeleteButton(false);
   };
 
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setEditedContent(comment.content);
+  };
+
   const handleReply = async () => {
     try {
       if (!replyContent.trim()) {
@@ -120,27 +125,27 @@ const Comment = ({ commentData, onDelete }) => {
       const menuIcon = document.querySelector(".menu-icon");
       const deleteButton = document.querySelector(".delete-button");
       const editButton = document.querySelector(".edit-button");
-  
+
       if (menuIcon && menuIcon.contains(event.target)) {
         return;
       }
-  
+
       if (deleteButton && !deleteButton.contains(event.target)) {
         setShowDeleteButton(false);
       }
-  
+
       if (editButton && !editButton.contains(event.target)) {
         setShowEditButton(false);
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
-  
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <div className="comment" key={comment.id}>
       <div className="commentContent">
@@ -150,7 +155,10 @@ const Comment = ({ commentData, onDelete }) => {
               src="https://www.comingsoon.net/wp-content/uploads/sites/3/2022/06/Baby-Groot.jpeg?w=800"
               alt="Baby Groot"
             />
-            <p>{comment.username} <span className="commentCreatedAt">{comment.createdAt}</span></p>
+            <p>
+              {comment.username}{" "}
+              <span className="commentCreatedAt">{comment.createdAt}</span>
+            </p>
           </div>
           <div
             className="menu-icon"
@@ -181,15 +189,19 @@ const Comment = ({ commentData, onDelete }) => {
               rows={4}
               cols={50}
             />
-            <button className="edit-submit-button" onClick={handleEditSubmit}>
-              送信
-            </button>
+            <div className="edit-buttons">
+              <button className="cancel-button" onClick={handleCancelEdit}>
+                キャンセル
+              </button>
+              <button className="edit-submit-button" onClick={handleEditSubmit}>
+                送信
+              </button>
+            </div>
           </div>
         ) : (
           <p>{comment.content}</p>
         )}
       </div>
-
       <div className="replies">
         {comment.replies &&
           comment.replies.map(
