@@ -48,7 +48,7 @@ a:hover {
   mix-blend-mode: multiply;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 959px) {
   #nav {
     height: 100%;
   }
@@ -62,7 +62,7 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 959px) {
   #nav {
     height: calc(100vh - 140px); 
   }

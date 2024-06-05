@@ -5,7 +5,7 @@
   margin: 0 auto;
   padding: 0 30px; 
   max-width: 800px;
-  width: 100%; 
+  /* width: 100%;  */
 }
 
 .Search {
@@ -51,7 +51,7 @@
 
 .postForm {
   display: flex;
-  justify-content: flex-en;
+  justify-content: flex-end;
   padding: 15px;
   border-radius: 20px;
   border: solid black;
@@ -59,15 +59,20 @@
 }
 
 .postForm textarea {
-  width: 90%;
+  width: 100%;
+  height: 30px;
   resize: none;
-  border-radius: 15px;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .postForm button {
   background-color: #F7CB46;
   color: black;
-  padding: 10px 15px;
+  padding: 1px 15px;
   cursor: pointer;
   border-radius: 20px;
+  white-space: nowrap; 
+  height: 50px;
+  line-height: 30px;
 }

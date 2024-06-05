@@ -4,7 +4,8 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  background-color: #FBEDE2; 
+  background-color: #FBEDE2;
+  overflow-x: hidden;
 }
 
 .App {
@@ -41,7 +42,7 @@ html, body {
   height: 100vh;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 959px) {
   .content {
     max-width: 800px;
     margin: 0 auto; 
