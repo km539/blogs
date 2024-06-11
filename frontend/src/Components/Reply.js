@@ -8,17 +8,18 @@ const Reply = ({ replyData, onDelete }) => {
   const [showEditButton, setShowEditButton] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editedContent, setEditedContent] = useState(replyData.content);
+  const [reply, setReply] = useState(replyData);
   const menuIconRef = useRef(null);
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/replies/${replyData.id}`, {
+      const res = await fetch(`http://localhost:5000/api/replies/${reply.id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
         console.log("Reply deleted successfully!");
-        onDelete(replyData.id);
+        onDelete(reply.id);
       } else {
         console.error("Failed to delete reply:", res.statusText);
       }
@@ -35,13 +36,12 @@ const Reply = ({ replyData, onDelete }) => {
 
   const handleCancelEdit = () => {
     setEditMode(false);
-    setEditedContent(replyData.content);
+    setEditedContent(reply.content); 
   };
-
 
   const handleEditSubmit = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/replies/${replyData.id}`, {
+      const res = await fetch(`http://localhost:5000/api/replies/${reply.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const Reply = ({ replyData, onDelete }) => {
 
       if (res.ok) {
         const responseJson = await res.json();
-        setEditedContent(responseJson.updatedReply.content);
+        setReply(responseJson.updatedReply); 
         setEditMode(false);
         console.log("Reply edited successfully!");
       } else {
@@ -98,8 +98,8 @@ const Reply = ({ replyData, onDelete }) => {
               alt="User Avatar"
             />
             <p>
-              {replyData.username}{" "}
-              <span className="replyCreatedAt">{replyData.createdAt}</span>
+              {reply.username}{" "}
+              <span className="replyCreatedAt">{reply.createdAt}</span>
             </p>
           </div>
           <div
@@ -143,7 +143,7 @@ const Reply = ({ replyData, onDelete }) => {
             </div>
           </div>
         ) : (
-          <p>{replyData.content}</p>
+          <p>{reply.content}</p>
         )}
       </div>
     </div>
