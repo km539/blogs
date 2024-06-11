@@ -63,7 +63,7 @@ const NavBar = () => {
             onClick={() => handleClick("MyPage")}
             className={activeLink === "MyPage" ? "active" : ""}
           >
-            My Page
+            MyPage
           </Link>
         </li>
       </ul>

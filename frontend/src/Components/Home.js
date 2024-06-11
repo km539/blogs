@@ -131,7 +131,7 @@ const Home = () => {
               rows="3"
               required
             ></textarea>
-            <button type="submit">Post</button>
+            <button type="submit">投稿</button>
           </form>
         </div>
       </div>

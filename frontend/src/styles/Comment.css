@@ -1,22 +1,25 @@
 .comment {
-  border: 1px solid #ccc;
+  border: solid black;
+  border-width: 2px 4px 4px 1px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .commentContent {
-  background-color: gainsboro;
+  background-color: #f8f4f1;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
+  border: solid black;
+  border-width: 2px 4px 4px 1px;
 }
 
 .commentText {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; 
+  position: relative;
 }
 
 .commentUser {
@@ -31,9 +34,17 @@
   border-radius: 50%;
   margin-right: 10px;
 }
+
+.commentUser p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
 .commentCreatedAt {
-  margin-left: auto; 
-  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 12px;
+  color: #888;
 }
 
 .menu-icon {
@@ -41,11 +52,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  width: 30px; 
-  height: 30px; 
-  border-radius: 50%; 
-  background-color: #ccc; 
-  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-top: -15px;
   margin-right: 10px;
 }
 
@@ -54,42 +65,98 @@
 }
 
 .menu-icon svg {
-  color: #333; 
-  font-size: 16px; 
+  color: #333;
+  font-size: 16px;
 }
 
 .delete-button {
-  background-color: #dc3545; 
-  color: white; 
-  border: none; 
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
   font-size: 14px;
-  border-radius: 4px; 
-  cursor: pointer; 
+  border-radius: 20px;
+  cursor: pointer;
   position: absolute;
-  bottom: -5px; 
-  right: 30px;
+  bottom: 25px;
+  right: 50px;
 }
 
 .delete-button:hover {
-  background-color: #c82333; 
+  background-color: #d9d9d9;
+}
+
+.edit-button {
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 25px;
+  right: 95px;
+}
+
+.edit-button:hover {
+  background-color: #d9d9d9;
 }
 
 .commentContent textarea {
   width: 99%;
   margin-top: 10px;
   resize: none;
-  background-color: whitesmoke;
+  background-color: gainsboro;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-submit-button {
+  background-color: #f7cb46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.edit-submit-button:hover {
+  background-color: #bbb;
+}
+
+.cancel-button {
+  background-color: #f7cb46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
+.commentContent > p {
+  margin-left: 50px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: #333;
 }
 
 .replies {
   margin-top: 10px;
   margin-left: 40px;
-  background-color: gainsboro;
 }
 
 .replyBox {
-  margin-top: 10px;
   padding: 10px;
+  margin-left: 2cap;
+  margin-bottom: 10px;
 }
 
 .replyBox form {
@@ -99,15 +166,21 @@
 }
 
 .replyBox textarea {
-  width: 90%;
+  width: 100%;
+  height: 20px;
   resize: none;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .replyBox button {
   display: inline-block;
-  background-color: skyblue;
+  background-color: #f7cb46;
   color: black;
-  padding: px 20px; /* ボタンの内側の余白を設定 */
+  padding: 1px 15px;
   cursor: pointer;
+  border-radius: 20px;
+  white-space: nowrap;
+  height: 40px;
+  line-height: 30px;
 }
-

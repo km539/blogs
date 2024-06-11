@@ -55,8 +55,19 @@ app.post("/api/comments", async (req, res) => {
       .returning("*");
 
     res.status(200).json({
-      newComment: comments[0],
+      newComment: { ...comments[0], replies: [] },
     });
+    //console.log("New comment content:", content);
+
+    // const query =
+    //   "INSERT INTO comments(username, content) VALUES ($1, $2) RETURNING * ";
+
+    // const result = await pool.query(query, [username, content]);
+    // const newComment = result.rows[0];
+
+    // res.status(200).json({
+    //   newComment: { ...newComment, replies: [] },
+    // });
   } catch (error) {
     console.error("Error executing query:", error.message);
     res.status(500).json({ error: "Internal server error" });
@@ -127,6 +138,48 @@ app.delete("/api/replies/:replyId", async (req, res) => {
     res.status(200).json({ message: "Reply deleted successfully" });
   } catch (error) {
     console.error("Error deleting reply:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/api/comments/:commentId", async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    const { content } = req.body;
+
+    const comment = await knex("comments")
+      .where({ id: commentId })
+      .update("content", content)
+      .returning("*");
+    
+    if (comment.length === 0) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    res.status(200).json({ updatedComment: comment[0] });
+  } catch (error) {
+    console.error("Error updating comment:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/api/replies/:replyId", async (req, res) => {
+  try {
+    const replyId = req.params.replyId;
+    const { content } = req.body;
+
+    const reply = await knex("replies")
+      .where({ id: replyId })
+      .update("content", content)
+      .returning("*");
+
+    if (reply.length === 0) {
+      return res.status(404).json({ error: "Reply not found" });
+    }
+
+    res.status(200).json({ updatedReply: reply[0] });
+  } catch (error) {
+    console.error("Error updating reply:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });

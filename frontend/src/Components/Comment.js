@@ -1,42 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Reply from "./Reply";
 import "../Styles/Comment.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 const Comment = ({ commentData, onDelete }) => {
-  const [comment, setComment] = useState(commentData);
+  const [comment, setComment] = useState({
+    ...commentData,
+    replies: commentData.replies || [],
+  });
   const [replyContent, setReplyContent] = useState("");
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deletedReplyId, setDeletedReplyId] = useState(null);
+  const [showEditButton, setShowEditButton] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editedContent, setEditedContent] = useState(commentData.content);
 
-  const handleDeleteComment = async () => {
-    try {
-      const res = await fetch(`/api/comments/${comment.id}`, {
-        method: "DELETE",
-      });
-
-      if (res.ok) {
-        console.log("Comment deleted successfully!");
-        onDelete(comment.id);
-      } else {
-        console.error("Failed to delete comment:", res.statusText);
-      }
-    } catch (error) {
-      console.error("Error deleting comment:", error);
-    }
+  const handleReplyChange = e => {
+    setReplyContent(e.target.value);
   };
 
   const handleDeleteReply = deletedId => {
     setDeletedReplyId(deletedId);
   };
 
-  const toggleDeleteButton = () => {
-    setShowDeleteButton(!showDeleteButton);
+  const handleEdit = () => {
+    setEditMode(true);
+    setShowEditButton(false);
+    setShowDeleteButton(false);
   };
 
-  const handleReplyChange = e => {
-    setReplyContent(e.target.value);
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setEditedContent(comment.content);
   };
 
   const handleReply = async () => {
@@ -68,14 +64,81 @@ const Comment = ({ commentData, onDelete }) => {
   };
 
   const updateReplies = newReply => {
-    //console.log("New reply:", newReply);
     setComment(prevComment => {
       return {
         ...prevComment,
-        replies: [...prevComment.replies, newReply],
+        replies: [...(prevComment.replies || []), newReply],
       };
     });
   };
+
+  const handleDeleteComment = async () => {
+    try {
+      const res = await fetch(`/api/comments/${comment.id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        console.log("Comment deleted successfully!");
+        onDelete(comment.id);
+      } else {
+        console.error("Failed to delete comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      const res = await fetch(`/api/comments/${comment.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: editedContent }),
+      });
+
+      if (res.ok) {
+        console.log("Comment edited successfully!");
+        setEditMode(false);
+        setComment(prevComment => ({
+          ...prevComment,
+          content: editedContent,
+        }));
+      } else {
+        console.error("Failed to edit comment:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error editing comment:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      const menuIcon = document.querySelector(".menu-icon");
+      const deleteButton = document.querySelector(".delete-button");
+      const editButton = document.querySelector(".edit-button");
+
+      if (menuIcon && menuIcon.contains(event.target)) {
+        return;
+      }
+
+      if (deleteButton && !deleteButton.contains(event.target)) {
+        setShowDeleteButton(false);
+      }
+
+      if (editButton && !editButton.contains(event.target)) {
+        setShowEditButton(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="comment" key={comment.id}>
@@ -86,21 +149,53 @@ const Comment = ({ commentData, onDelete }) => {
               src="https://www.comingsoon.net/wp-content/uploads/sites/3/2022/06/Baby-Groot.jpeg?w=800"
               alt="Baby Groot"
             />
-            <p>{comment.username}</p>
+            <p>
+              {comment.username}{" "}
+              <span className="commentCreatedAt">{comment.createdAt}</span>
+            </p>
           </div>
-          <p className="commentCreatedAt">{comment.createdAt}</p>
-          <div className="menu-icon" onClick={toggleDeleteButton}>
+          <div
+            className="menu-icon"
+            onClick={() => {
+              setShowDeleteButton(!showDeleteButton);
+              setShowEditButton(!showEditButton);
+            }}
+          >
             <FontAwesomeIcon icon={faEllipsisV} />
           </div>
+
           {showDeleteButton && (
             <button className="delete-button" onClick={handleDeleteComment}>
               削除
             </button>
           )}
+          {showEditButton && (
+            <button className="edit-button" onClick={handleEdit}>
+              編集
+            </button>
+          )}
         </div>
-        <textarea readOnly rows={4} cols={50} defaultValue={comment.content} />
+        {editMode ? (
+          <div>
+            <textarea
+              value={editedContent}
+              onChange={e => setEditedContent(e.target.value)}
+              rows={4}
+              cols={50}
+            />
+            <div className="edit-buttons">
+              <button className="cancel-button" onClick={handleCancelEdit}>
+                キャンセル
+              </button>
+              <button className="edit-submit-button" onClick={handleEditSubmit}>
+                送信
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p>{comment.content}</p>
+        )}
       </div>
-
       <div className="replies">
         {comment.replies &&
           comment.replies.map(
@@ -125,7 +220,7 @@ const Comment = ({ commentData, onDelete }) => {
             required
           ></textarea>
           <button type="button" onClick={handleReply}>
-            Reply
+            返信
           </button>
         </form>
       </div>

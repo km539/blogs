@@ -1,64 +1,149 @@
-.comment {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    margin-right: 20px;
-  }
-
-  .commentInfo {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: flex-start;
-    position: relative; 
-  } 
-  
-  .commentUser1 {
-    width: 30%;
-    display: flex;
-    margin-top: 20px;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: flex-start;
-    justify-content: space-evenly;
-    align-items: center;
+.reply {
+  border: solid black;
+  border-width: 2px 4px 4px 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #F8F4F1;
+  border-radius: 15px;
+  display: block;
 }
 
-  .commentUser1 img {
-    width: 30px; 
-    height: 30px; 
-    border-radius: 50%; 
-    margin-right: 10px; 
-  }
+.replyContent {
+  background-color: #F8F4F1;
+  padding: 10px;
+  border-radius: 5px;
+}
 
-  .commentUser1 p {
-    margin-right: 10px;
-    margin-top: auto;
-  }
+.replyText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
 
-  .commentReply {
-    width: 80%;
-    height: 40%;
-    margin-top: 10px;
-    margin-right: 10px;
-    resize: none;
-    background-color: whitesmoke;
-  }
+.replyUser {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  .replies .delete-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    position: absolute; 
-    bottom: 70px; 
-    right: 30px;
-  }
-  
-  .replies .delete-button:hover {
-    background-color: #c82333;
-  }
-  
+.replyUser img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.replyUser p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.replyCreatedAt {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+.replies .menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-top: -15px;
+  margin-right: 10px;
+}
+
+.replies .menu-icon:hover {
+  background-color: #ddd;
+}
+
+.replies .menu-icon svg {
+  color: #333;
+  font-size: 16px;
+}
+
+.replies .delete-button {
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 15px;
+  right: 45px;
+}
+
+.replies .delete-button:hover {
+  background-color: #d9d9d9;
+}
+
+.replies .edit-button {
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 15px;
+  right: 95px;
+}
+
+.edit-button:hover {
+  background-color: #d9d9d9;
+}
+
+.replies .replyTextarea {
+  width: 99%;
+  margin-top: 10px;
+  resize: none;
+  background-color: gainsboro;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.replies .edit-submit-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.replies .edit-submit-button:hover {
+  background-color: #bbb;
+}
+
+.cancel-button {
+  background-color: #F7CB46;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
+.replyContent > p {
+  margin-left: 50px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: #333;
+}
+
